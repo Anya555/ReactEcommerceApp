@@ -1,6 +1,5 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,32 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useStyles } from "./style";
 // import CircularProgress from "@material-ui/core/CircularProgress";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-  },
-  icon: {
-    margin: theme.spacing(1),
-    backgroundColor: "#ad1457",
-  },
-  submit: {
-    margin: theme.spacing(2, 0, 2),
-    backgroundColor: "#ad1457",
-    color: "#fafafa",
-  },
-  progress: {
-    position: "absolute",
-  },
-}));
 
 const Signup = () => {
   const classes = useStyles({});
