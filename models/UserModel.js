@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
+    default: "customer",
     userkind: ["customer", "admin"],
   },
   accesstoken: {
