@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -9,10 +10,35 @@ import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useStyles } from "./style";
+import API from "../../utils/API";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 
-const Signup = () => {
+const Signup = (props) => {
   const classes = useStyles({});
+  const [formObject, setFormObject] = useState([]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormObject({ ...formObject, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    API.loginUser(formObject)
+      .then((res) => {
+        console.log(res.data.data.role);
+
+        if (res.data.data.role !== "databaseManager") {
+          props.history.replace("/");
+        } else {
+          props.history.replace("admin-dashboard");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <br></br>
@@ -39,7 +65,9 @@ const Signup = () => {
                   fullWidth
                   defaultValue=" "
                   variant="outlined"
+                  name="email"
                   autoComplete="email"
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -49,7 +77,9 @@ const Signup = () => {
                   label="Password"
                   fullWidth
                   variant="outlined"
+                  name="password"
                   type="password"
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -58,8 +88,9 @@ const Signup = () => {
                   fullWidth
                   variant="contained"
                   className={classes.submit}
+                  onClick={handleSubmit}
                 >
-                  Sign Up
+                  Log in
                   {/* {loading && (
                   <CircularProgress size={30} className={classes.progress} />
                 )} */}
@@ -79,4 +110,4 @@ const Signup = () => {
     </>
   );
 };
-export default Signup;
+export default withRouter(Signup);

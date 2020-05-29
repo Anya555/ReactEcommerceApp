@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -9,10 +9,28 @@ import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useStyles } from "./style";
-// import CircularProgress from "@material-ui/core/CircularProgress";
+import API from "../../utils/API";
 
 const Signup = () => {
   const classes = useStyles({});
+  const [formObject, setFormObject] = useState([]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormObject({ ...formObject, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    API.addUserToDb(formObject)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <br></br>
@@ -34,40 +52,45 @@ const Signup = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="outlined-required"
+                  id="firstname"
                   label="First Name"
-                  defaultValue=" "
                   variant="outlined"
+                  name="firstName"
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="outlined-required"
+                  id="lastname"
                   label="Last Name"
-                  defaultValue=" "
                   variant="outlined"
+                  name="lastName"
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
-                  id="outlined-required"
+                  id="email"
                   label="Email"
                   fullWidth
-                  defaultValue=" "
                   variant="outlined"
                   autoComplete="email"
+                  name="email"
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
-                  id="outlined"
+                  id="password"
                   label="Password"
                   fullWidth
                   variant="outlined"
                   type="password"
+                  name="password"
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -76,11 +99,9 @@ const Signup = () => {
                   fullWidth
                   variant="contained"
                   className={classes.submit}
+                  onClick={handleSubmit}
                 >
                   Sign Up
-                  {/* {loading && (
-                  <CircularProgress size={30} className={classes.progress} />
-                )} */}
                 </Button>
               </Grid>
               <Grid>

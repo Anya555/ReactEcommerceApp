@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  firstname: {
+  firstName: {
     type: String,
     required: true,
   },
-  lastname: {
+  lastName: {
     type: String,
     required: true,
   },
@@ -21,9 +21,8 @@ const UserSchema = new Schema({
   role: {
     type: String,
     default: "customer",
-    userkind: ["customer", "admin"],
   },
-  accesstoken: {
+  accessToken: {
     type: String,
   },
 });
