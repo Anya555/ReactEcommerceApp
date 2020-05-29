@@ -11,7 +11,6 @@ import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useStyles } from "./style";
 import API from "../../utils/API";
-// import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Signup = (props) => {
   const classes = useStyles({});
@@ -27,7 +26,6 @@ const Signup = (props) => {
     API.loginUser(formObject)
       .then((res) => {
         console.log(res.data.data.role);
-
         if (res.data.data.role !== "databaseManager") {
           props.history.replace("/");
         } else {
@@ -91,9 +89,6 @@ const Signup = (props) => {
                   onClick={handleSubmit}
                 >
                   Log in
-                  {/* {loading && (
-                  <CircularProgress size={30} className={classes.progress} />
-                )} */}
                 </Button>
               </Grid>
               <Grid>

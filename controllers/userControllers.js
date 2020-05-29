@@ -13,7 +13,7 @@ async function validatePassword(plainpassword, hashedpassword) {
 }
 
 // bodyParser package will parse the data sent through the form and attach it to the req.body object.
-//The provided data is then used to create a new user.
+//Then provided data is then used to create a new user.
 //After the user is created we can use the user’s ID to create a JWT, that JWT will be used to identify users
 // and determine what resources they’ll be allowed to access.
 module.exports = {

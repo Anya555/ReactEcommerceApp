@@ -1,14 +1,71 @@
 import React from "react";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import DeleteForever from "@material-ui/icons/DeleteForever";
+import { useStyles } from "./style";
+import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
 
-const AdminDashboard = () => {
+export default function SimpleTable() {
+  const classes = useStyles();
+  const headers = [
+    { id: 1, label: "Image" },
+    { id: 2, label: "Name" },
+    { id: 3, label: "Category" },
+    { id: 4, label: "Quantity" },
+    { id: 5, label: "Price" },
+    { id: 6, label: "Description" },
+    { id: 7, label: "" },
+  ];
+
   return (
-    <>
-      <br></br>
-      <br></br>
-      <br></br>
-      <h1>Admin dashboard</h1>
-    </>
+    <Container component="main">
+      <CssBaseline />
+      <Tooltip title="Add" aria-label="add" className={classes.fab}>
+        <Fab color="secondary">
+          <AddIcon />
+        </Fab>
+      </Tooltip>
+      <div className={classes.paper}>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                {headers.map((column) => {
+                  return (
+                    <TableCell key={column.id} className={classes.headers}>
+                      {column.label}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell className={classes.tableWidth}>
+                  <img src="" width="100px" height="100px" />
+                </TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell className={classes.description}></TableCell>
+                <TableCell>
+                  <DeleteForever />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </Container>
   );
-};
-
-export default AdminDashboard;
+}

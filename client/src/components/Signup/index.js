@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useStyles } from "./style";
 import API from "../../utils/API";
 
-const Signup = () => {
+const Signup = (props) => {
   const classes = useStyles({});
   const [formObject, setFormObject] = useState([]);
 
@@ -25,6 +26,7 @@ const Signup = () => {
     API.addUserToDb(formObject)
       .then((res) => {
         console.log(res);
+        props.history.replace("/");
       })
       .catch((err) => {
         console.log(err);
@@ -118,4 +120,4 @@ const Signup = () => {
     </>
   );
 };
-export default Signup;
+export default withRouter(Signup);
