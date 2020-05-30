@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminDashboard from "./components/AdminDashboard";
+import AdminPostForm from "./components/AdminPostForm";
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
         </Route>
         <Route exact path="/admin-dashboard">
           <AdminDashboard />
+        </Route>
+        <Route exact path="/admin-post-form">
+          <AdminPostForm />
         </Route>
       </Switch>
       {/* <Footer /> */}

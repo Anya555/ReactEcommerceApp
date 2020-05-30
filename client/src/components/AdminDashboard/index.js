@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -29,11 +30,13 @@ export default function SimpleTable() {
   return (
     <Container component="main">
       <CssBaseline />
-      <Tooltip title="Add" aria-label="add" className={classes.fab}>
-        <Fab color="secondary">
-          <AddIcon />
-        </Fab>
-      </Tooltip>
+      <Link to="/admin-post-form">
+        <Tooltip title="Add" aria-label="add" className={classes.fab}>
+          <Fab color="secondary">
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+      </Link>
       <div className={classes.paper}>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
@@ -51,7 +54,7 @@ export default function SimpleTable() {
             <TableBody>
               <TableRow>
                 <TableCell className={classes.tableWidth}>
-                  <img src="" width="100px" height="100px" />
+                  <img src="" alt="product" width="100px" height="100px" />
                 </TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>

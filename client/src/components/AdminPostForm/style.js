@@ -11,16 +11,18 @@ export const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginTop: theme.spacing(3),
   },
-  icon: {
-    margin: theme.spacing(1),
-    backgroundColor: "#ad1457",
-  },
+
   submit: {
     margin: theme.spacing(2, 0, 2),
     backgroundColor: "#ad1457",
     color: "#fafafa",
   },
-  progress: {
-    position: "absolute",
+  root: {
+    "& > *": {
+      margin: theme.spacing(2, 0, 2),
+    },
+  },
+  input: {
+    display: "none",
   },
 }));

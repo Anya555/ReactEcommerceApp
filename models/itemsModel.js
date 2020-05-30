@@ -6,7 +6,7 @@ const itemsSchema = new Schema({
     type: String,
     default: "",
   },
-  itemname: {
+  name: {
     type: String,
     required: true,
   },

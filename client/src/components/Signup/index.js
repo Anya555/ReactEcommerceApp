@@ -35,10 +35,6 @@ const Signup = (props) => {
 
   return (
     <>
-      <br></br>
-      <br></br>
-      <br></br>
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
