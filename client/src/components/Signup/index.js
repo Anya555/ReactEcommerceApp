@@ -15,7 +15,6 @@ import API from "../../utils/API";
 const Signup = (props) => {
   const classes = useStyles({});
   const [formObject, setFormObject] = useState([]);
-  const [errorMessage, setError] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +29,7 @@ const Signup = (props) => {
         props.history.replace("/");
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error.response.data); // need help here displaying server-side errors here
       });
   };
 
@@ -112,17 +111,6 @@ const Signup = (props) => {
               </Grid>
             </Grid>
           </form>
-          {errorMessage !== null && (
-            <div
-              style={{
-                color: "red",
-                fontSize: "xx-large",
-                backgroundColor: "green",
-              }}
-            >
-              {props.errorMessage}
-            </div>
-          )}
         </div>
       </Container>
     </>

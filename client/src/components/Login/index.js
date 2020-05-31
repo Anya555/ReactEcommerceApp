@@ -11,11 +11,13 @@ import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useStyles } from "./style";
 import API from "../../utils/API";
+import AdminDashboard from "../AdminDashboard";
 
 const Signup = (props) => {
   const classes = useStyles({});
+  const [user, setUser] = useState({});
   const [formObject, setFormObject] = useState([]);
-
+  // console.log(user);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormObject({ ...formObject, [name]: value });
@@ -25,9 +27,10 @@ const Signup = (props) => {
     e.preventDefault();
     API.loginUser(formObject)
       .then((res) => {
+        setUser(res.data);
         console.log(res);
-        console.log("user is logged in");
-        console.log(res.data.data.role);
+        // console.log("user is logged in");
+        // console.log(res.data.data.role);
         if (res.data.data.role !== "admin") {
           props.history.replace("/");
         } else {
@@ -35,7 +38,7 @@ const Signup = (props) => {
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error);
       });
   };
 
@@ -99,6 +102,7 @@ const Signup = (props) => {
             </Grid>
           </form>
         </div>
+        {/* <AdminDashboard user={user} /> */}
       </Container>
     </>
   );

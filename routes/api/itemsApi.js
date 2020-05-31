@@ -2,7 +2,7 @@ const router = require("express").Router();
 const itemController = require("../../controllers/itemControllers");
 const userController = require("../../controllers/userControllers");
 
-//  route /api/items
+//   "/" =  /api/items
 router
   .route("/")
   .post(

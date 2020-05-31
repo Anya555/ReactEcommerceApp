@@ -19,13 +19,16 @@ async function validatePassword(plainpassword, hashedpassword) {
 module.exports = {
   signup: async (req, res, next) => {
     try {
-      console.log(req.body);
+      // console.log(req.body);
       const { firstName, lastName, email, password, role } = req.body;
+      // ===========================================================//
       const user = await User.findOne({ email });
       if (user) return next(new Error("Email already exists"));
+
       const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       if (user !== emailFormat)
         return next(new Error("Please enter valid email"));
+      // =============================================================//
       const hashedpassword = await hashPassword(password);
       const newUser = new User({
         firstName,
@@ -55,9 +58,9 @@ module.exports = {
     }
   },
 
-  // To log in, the user sends the email and password used when signing up, the validatePassword function is used to verify
-  //that the password is correct. When that’s done, we can then create a new token for that user which will replace any previously
-  //issued token. That token will ideally be sent by the user along in the header when trying to access any restricted route.
+  //the validatePassword function is used to verify that the password is correct. When that’s done,
+  // we can then create a new token for that user which will replace any previously issued token.
+  // That token will ideally be sent by the user along in the header when trying to access any restricted route.
   login: async (req, res, next) => {
     try {
       const { email, password } = req.body;
@@ -101,7 +104,7 @@ module.exports = {
   allowIfLoggedin: async (req, res, next) => {
     try {
       const user = res.locals.loggedInUser; // res.locals.loggedInUser variable holds the details of the logged-in user
-      console.log(user);
+      // console.log(user);
       if (!user)
         return res.status(401).json({
           error: "You need to be logged in to access this route",

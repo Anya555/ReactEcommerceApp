@@ -12,12 +12,13 @@ module.exports = {
 
   // Get all items from db
   findAll: function (req, res) {
-    console.log("query", req.query);
+    // console.log("query", req.query);
     db.Items.find(req.query)
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
 
+  // Delete
   remove: function (req, res) {
     console.log("id", req.params.id);
     db.Items.findById({ _id: req.params.id })
