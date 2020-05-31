@@ -20,13 +20,13 @@ export default function SimpleTable() {
   const [items, setItems] = useState([]);
   const classes = useStyles();
   const headers = [
-    { id: 1, label: "Image" },
-    { id: 2, label: "Name" },
-    { id: 3, label: "Category" },
-    { id: 4, label: "Quantity" },
-    { id: 5, label: "Price" },
-    { id: 6, label: "Description" },
-    { id: 7, label: "" },
+    { idx: 1, label: "Image" },
+    { idx: 2, label: "Name" },
+    { idx: 3, label: "Category" },
+    { idx: 4, label: "Quantity" },
+    { idx: 5, label: "Price" },
+    { idx: 6, label: "Description" },
+    { idx: 7, label: "" },
   ];
 
   useEffect(() => {
@@ -37,6 +37,14 @@ export default function SimpleTable() {
     API.getAllItems()
       .then((res) => setItems(res.data))
       .catch((err) => console.log(err));
+  };
+
+  const deleteFromDb = (id) => {
+    API.deleteItem(id)
+      .then((res) => displayAll())
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   return (
@@ -56,7 +64,7 @@ export default function SimpleTable() {
               <TableRow>
                 {headers.map((column) => {
                   return (
-                    <TableCell key={column.id} className={classes.headers}>
+                    <TableCell key={column.idx} className={classes.headers}>
                       {column.label}
                     </TableCell>
                   );
@@ -66,7 +74,7 @@ export default function SimpleTable() {
             <TableBody>
               {items.map((item) => {
                 return (
-                  <TableRow key={item.id}>
+                  <TableRow key={item._id}>
                     <TableCell className={classes.tableWidth}>
                       <img src=" " alt="" width="100px" height="100px" />
                     </TableCell>
@@ -78,7 +86,7 @@ export default function SimpleTable() {
                       {item.description}
                     </TableCell>
                     <TableCell>
-                      <DeleteForever />
+                      <DeleteForever onClick={() => deleteFromDb(item._id)} />
                     </TableCell>
                   </TableRow>
                 );

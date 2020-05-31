@@ -19,4 +19,12 @@ router
     itemController.findAll
   );
 
+router
+  .route("/:id")
+  .delete(
+    userController.allowIfLoggedin,
+    userController.grantAccess("delete", "item"),
+    itemController.remove
+  );
+
 module.exports = router;

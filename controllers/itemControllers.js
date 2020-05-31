@@ -12,8 +12,16 @@ module.exports = {
 
   // Get all items from db
   findAll: function (req, res) {
-    console.log(req.query);
+    console.log("query", req.query);
     db.Items.find(req.query)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+
+  remove: function (req, res) {
+    console.log("id", req.params.id);
+    db.Items.findById({ _id: req.params.id })
+      .then((dbModel) => dbModel.remove())
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
