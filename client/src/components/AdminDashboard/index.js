@@ -15,7 +15,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 
-export default function SimpleTable() {
+export default function SimpleTable(props) {
   const classes = useStyles();
   const headers = [
     { id: 1, label: "Image" },
@@ -54,7 +54,7 @@ export default function SimpleTable() {
             <TableBody>
               <TableRow>
                 <TableCell className={classes.tableWidth}>
-                  <img src="" alt="product" width="100px" height="100px" />
+                  <img src=" " alt="" width="100px" height="100px" />
                 </TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>

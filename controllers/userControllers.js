@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt"); //  node package that helps safely store passwords. Recommended to use with async
-
+const { roles } = require("../roles");
 // takes in a plain password value then uses bcrypt to hash the value and return the hashed value.
 async function hashPassword(password) {
   return await bcrypt.hash(password, 10);
@@ -21,6 +21,11 @@ module.exports = {
     try {
       console.log(req.body);
       const { firstName, lastName, email, password, role } = req.body;
+      const user = await User.findOne({ email });
+      if (user) return next(new Error("Email already exists"));
+      const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (user !== emailFormat)
+        return next(new Error("Please enter valid email"));
       const hashedpassword = await hashPassword(password);
       const newUser = new User({
         firstName,
@@ -29,6 +34,7 @@ module.exports = {
         password: hashedpassword,
         role: role,
       });
+
       // The JWT_SECRET environmental variable holds a private key that is used when signing the JWT,
       //this key will also be used when parsing the JWT to verify that it hasn’t been compromised by an authorized party.
       const accessToken = jwt.sign(
@@ -71,6 +77,37 @@ module.exports = {
         data: { email: user.email, role: user.role },
         accessToken,
       });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  grantAccess: (action, resource) => {
+    return async (req, res, next) => {
+      try {
+        const permission = roles.can(req.user.role)[action](resource);
+        if (!permission.granted) {
+          return res.status(401).json({
+            error: "You don't have enough permission to perform this action",
+          });
+        }
+        next();
+      } catch (error) {
+        next(error);
+      }
+    };
+  },
+
+  allowIfLoggedin: async (req, res, next) => {
+    try {
+      const user = res.locals.loggedInUser; // res.locals.loggedInUser variable holds the details of the logged-in user
+      console.log(user);
+      if (!user)
+        return res.status(401).json({
+          error: "You need to be logged in to access this route",
+        });
+      req.user = user;
+      next();
     } catch (error) {
       next(error);
     }

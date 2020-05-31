@@ -19,6 +19,16 @@ const PostForm = () => {
     setFormObject({ ...formObject, [name]: value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    API.postItem(formObject)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -65,6 +75,7 @@ const PostForm = () => {
                 label="Quantity"
                 variant="outlined"
                 name="quantity"
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -75,6 +86,7 @@ const PostForm = () => {
                 label="Price"
                 variant="outlined"
                 name="price"
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -87,6 +99,7 @@ const PostForm = () => {
                 multiline
                 rows={4}
                 name="description"
+                onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -97,6 +110,7 @@ const PostForm = () => {
                   id="contained-button-file"
                   multiple
                   type="file"
+                  onChange={handleInputChange}
                 />
                 <label htmlFor="contained-button-file">
                   <Button variant="contained" component="span" fullWidth>
@@ -111,6 +125,7 @@ const PostForm = () => {
                 fullWidth
                 variant="contained"
                 className={classes.submit}
+                onClick={handleSubmit}
               >
                 Submit
               </Button>

@@ -25,8 +25,10 @@ const Signup = (props) => {
     e.preventDefault();
     API.loginUser(formObject)
       .then((res) => {
+        console.log(res);
+        console.log("user is logged in");
         console.log(res.data.data.role);
-        if (res.data.data.role !== "databaseManager") {
+        if (res.data.data.role !== "admin") {
           props.history.replace("/");
         } else {
           props.history.replace("admin-dashboard");

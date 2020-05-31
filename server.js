@@ -9,7 +9,6 @@ const User = require("./models/UserModel");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(routes);
 
 require("dotenv").config();
 
@@ -45,6 +44,8 @@ app.use(async (req, res, next) => {
     next();
   }
 });
+
+app.use(routes);
 
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
