@@ -34,8 +34,8 @@ const Signup = (props) => {
           props.history.replace("admin-dashboard");
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error.response.data);
       });
   };
 

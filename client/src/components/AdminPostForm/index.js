@@ -10,7 +10,7 @@ import { useStyles } from "./style";
 import API from "../../utils/API";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const PostForm = () => {
+const PostForm = (props) => {
   const classes = useStyles({});
   const [formObject, setFormObject] = useState([]);
 
@@ -24,6 +24,9 @@ const PostForm = () => {
     API.postItem(formObject)
       .then((res) => {
         console.log(res);
+      })
+      .then(() => {
+        props.history.replace("/admin-dashboard");
       })
       .catch((err) => {
         console.log(err);
@@ -137,4 +140,4 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+export default withRouter(PostForm);

@@ -29,8 +29,8 @@ const Signup = (props) => {
         console.log(res);
         props.history.replace("/");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error.response);
       });
   };
 

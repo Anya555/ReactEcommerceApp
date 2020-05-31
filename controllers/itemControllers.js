@@ -9,4 +9,12 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+
+  // Get all items from db
+  findAll: function (req, res) {
+    console.log(req.query);
+    db.Items.find(req.query)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
 };

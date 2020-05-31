@@ -16,7 +16,10 @@ export default {
   postItem: (item) => {
     console.log("api route hit");
     console.log(item);
-
     return axios.post("/api/items", item);
+  },
+
+  getAllItems: () => {
+    return axios.get("/api/items");
   },
 };

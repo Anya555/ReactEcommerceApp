@@ -11,4 +11,12 @@ router
     itemController.create
   );
 
+router
+  .route("/")
+  .get(
+    userController.allowIfLoggedin,
+    userController.grantAccess("read", "item"),
+    itemController.findAll
+  );
+
 module.exports = router;
