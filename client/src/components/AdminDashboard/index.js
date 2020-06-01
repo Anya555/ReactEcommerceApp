@@ -35,7 +35,7 @@ export default function SimpleTable({ user }) {
     // checkIfAuthorized();
     displayAll();
   }, []);
-  console.log(user);
+  // console.log(user);
   // const checkIfAuthorized = async () => {
   //   if (await user.accessToken) {
   //     setIsAuthorized(true);

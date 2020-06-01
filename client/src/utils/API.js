@@ -25,14 +25,14 @@ export default {
   },
 
   deleteItem: (id) => {
-    console.log("api route hit");
-    console.log(id);
+    // console.log(id);
     return axios.delete("/api/items/" + id);
   },
   // =========================================================== //
 
   // =================== display items on a home page ================== //
   displayAllItems: () => {
-    return axios.get("/api/allitems");
+    console.log("api route hit");
+    return axios.get("/api/items/all");
   },
 };

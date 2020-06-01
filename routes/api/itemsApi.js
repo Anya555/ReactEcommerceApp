@@ -31,6 +31,6 @@ router
 // ============================================================== //
 
 // =========== display all items on a home page ================= //
-router.route("/allitems").get(itemController.findAll);
+router.route("/all").get(itemController.findAll);
 
 module.exports = router;
