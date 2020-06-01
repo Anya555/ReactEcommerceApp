@@ -142,27 +142,27 @@ export default function PrimarySearchAppBar() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton>
-              <Link to="/" style={{ color: "#4caf50" }}>
+              <Link to="/" style={{ color: "black" }}>
                 <Home />
               </Link>
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" style={{ color: "#4caf50" }}>
               <MailIcon />
             </IconButton>
             <IconButton aria-label="show 0 new notifications" color="inherit">
               <Badge badgeContent={0} color="secondary">
-                <Link to="/" style={{ color: "#4caf50" }}>
+                <Link to="/" style={{ color: "black" }}>
                   <ShoppingCart />
                 </Link>
               </Badge>
             </IconButton>
             <IconButton
+              style={{ color: "#4caf50" }}
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color="inherit"
             >
               <AccountCircle />
             </IconButton>

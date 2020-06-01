@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default {
+  // =========== login and signup  ===================== //
   addUserToDb: (user) => {
     return axios.post("/api/users/signup", user);
   },
@@ -12,7 +13,9 @@ export default {
       return res;
     });
   },
+  // ========================================================== //
 
+  // ================== restricted  for admin use========= //
   postItem: (item) => {
     return axios.post("/api/items", item);
   },
@@ -21,9 +24,15 @@ export default {
     return axios.get("/api/items");
   },
 
-  deleteItem: function (id) {
+  deleteItem: (id) => {
     console.log("api route hit");
     console.log(id);
     return axios.delete("/api/items/" + id);
+  },
+  // =========================================================== //
+
+  // =================== display items on a home page ================== //
+  displayAllItems: () => {
+    return axios.get("/api/allitems");
   },
 };

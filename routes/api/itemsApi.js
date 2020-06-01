@@ -3,6 +3,8 @@ const itemController = require("../../controllers/itemControllers");
 const userController = require("../../controllers/userControllers");
 
 //   "/" =  /api/items
+
+// ================== restricted routes for admin use========= //
 router
   .route("/")
   .post(
@@ -26,5 +28,9 @@ router
     userController.grantAccess("delete", "item"),
     itemController.remove
   );
+// ============================================================== //
+
+// =========== display all items on a home page ================= //
+router.route("/allitems").get(itemController.findAll);
 
 module.exports = router;
