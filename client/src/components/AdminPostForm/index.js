@@ -65,9 +65,10 @@ const PostForm = (props) => {
                 onChange={handleInputChange}
               >
                 <MenuItem value=" ">...</MenuItem>
-                <MenuItem value={1}>One</MenuItem>
-                <MenuItem value={2}>Two</MenuItem>
-                <MenuItem value={3}>Three</MenuItem>
+                <MenuItem value={1}>Blenders</MenuItem>
+                <MenuItem value={2}>Juicers</MenuItem>
+                <MenuItem value={3}>Dehydrators</MenuItem>
+                <MenuItem value={4}>Oil Presses</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12}>

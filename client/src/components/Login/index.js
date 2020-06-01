@@ -102,7 +102,7 @@ const Signup = (props) => {
             </Grid>
           </form>
         </div>
-        {/* <AdminDashboard user={user} /> */}
+        <AdminDashboard user={user} />
       </Container>
     </>
   );

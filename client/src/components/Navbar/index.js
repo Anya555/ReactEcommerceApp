@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -11,9 +10,9 @@ import Menu from "@material-ui/core/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import Home from "@material-ui/icons/Home";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import { useStyles } from "./style";
 
 export default function PrimarySearchAppBar() {
@@ -76,21 +75,31 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/" style={{ color: "black", textDecoration: "none" }}>
+          <IconButton color="inherit">
+            <Badge color="secondary">
+              <Home />
+            </Badge>
+          </IconButton>
+          Home
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton color="inherit">
+          <Badge color="secondary">
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        Contact us
       </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton aria-label="show 0 new notifications" color="inherit">
+          <Badge badgeContent={0} color="secondary">
+            <ShoppingCart />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        Shopping cart
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -108,7 +117,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ margin: 0, backgroundColor: "#0277bd" }}>
+      <AppBar style={{ margin: 0, backgroundColor: "#bdbdbd" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -116,12 +125,10 @@ export default function PrimarySearchAppBar() {
             color="inherit"
             aria-label="open drawer"
           ></IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            LOGO
-          </Typography>
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+              <SearchIcon style={{ color: "#4caf50" }} />
             </div>
             <InputBase
               placeholder="Search…"
@@ -134,12 +141,19 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <IconButton>
+              <Link to="/" style={{ color: "#4caf50" }}>
+                <Home />
+              </Link>
+            </IconButton>
             <IconButton color="inherit">
               <MailIcon />
             </IconButton>
-            <IconButton aria-label="show 1 new notifications" color="inherit">
-              <Badge badgeContent={1} color="secondary">
-                <ShoppingCartOutlinedIcon />
+            <IconButton aria-label="show 0 new notifications" color="inherit">
+              <Badge badgeContent={0} color="secondary">
+                <Link to="/" style={{ color: "#4caf50" }}>
+                  <ShoppingCart />
+                </Link>
               </Badge>
             </IconButton>
             <IconButton

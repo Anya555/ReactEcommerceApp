@@ -15,6 +15,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import API from "../../utils/API";
+import Login from "../Login";
 
 export default function SimpleTable({ user }) {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -34,7 +35,7 @@ export default function SimpleTable({ user }) {
     // checkIfAuthorized();
     displayAll();
   }, []);
-
+  console.log(user);
   // const checkIfAuthorized = async () => {
   //   if (await user.accessToken) {
   //     setIsAuthorized(true);
