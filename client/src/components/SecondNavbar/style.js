@@ -21,4 +21,9 @@ export const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  app: {
+    margin: 0,
+    backgroundColor: "white",
+    boxShadow: "none",
+  },
 }));

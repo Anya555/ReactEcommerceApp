@@ -29,7 +29,7 @@ const Signup = (props) => {
         props.history.replace("/");
       })
       .catch((error) => {
-        console.log(error.response.data); // need help here displaying server-side errors here
+        console.log(error.response); // need help here displaying server-side errors here
       });
   };
 

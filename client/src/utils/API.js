@@ -15,7 +15,7 @@ export default {
   },
   // ========================================================== //
 
-  // ================== restricted  for admin use========= //
+  // ================== restricted  for admin use ========= //
   postItem: (item) => {
     return axios.post("/api/items", item);
   },
@@ -30,9 +30,15 @@ export default {
   },
   // =========================================================== //
 
-  // =================== display items on a home page ================== //
+  // =========== display items on a home page ================== //
   displayAllItems: () => {
-    console.log("api route hit");
     return axios.get("/api/items/all");
+  },
+
+  // =========== display items by category on a home page ====== //
+  displayCategory: (query) => {
+    console.log("api route hit");
+    console.log(query);
+    return axios.get("/api/items?category=" + query);
   },
 };
