@@ -16,7 +16,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import API from "../../utils/API";
 
-export default function SimpleTable() {
+export default function SimpleTable(props) {
   const [items, setItems] = useState([]);
   const classes = useStyles();
   const headers = [
@@ -72,25 +72,33 @@ export default function SimpleTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((item) => {
-                return (
-                  <TableRow key={item._id}>
-                    <TableCell className={classes.tableWidth}>
-                      <img src=" " alt="" width="100px" height="100px" />
-                    </TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.category}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.price}</TableCell>
-                    <TableCell className={classes.description}>
-                      {item.description}
-                    </TableCell>
-                    <TableCell>
-                      <DeleteForever onClick={() => deleteFromDb(item._id)} />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {items
+                .filter(
+                  (item) =>
+                    item.category
+                      .toLowerCase()
+                      .includes(props.search.toLowerCase()) ||
+                    item.name.toLowerCase().includes(props.search.toLowerCase())
+                )
+                .map((item) => {
+                  return (
+                    <TableRow key={item._id}>
+                      <TableCell className={classes.tableWidth}>
+                        <img src=" " alt="" width="100px" height="100px" />
+                      </TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.category}</TableCell>
+                      <TableCell>{item.quantity}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell className={classes.description}>
+                        {item.description}
+                      </TableCell>
+                      <TableCell>
+                        <DeleteForever onClick={() => deleteFromDb(item._id)} />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>

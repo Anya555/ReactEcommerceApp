@@ -12,7 +12,6 @@ import API from "../../utils/API";
 
 export default function MediaCard(props) {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
@@ -44,12 +43,23 @@ export default function MediaCard(props) {
 
   return (
     <>
-      <CategoriesNavbar displayItemCategory={displayItemCategory} />
+      <CategoriesNavbar
+        displayItemCategory={displayItemCategory}
+        displayAll={displayAll}
+      />
       <Grid container className={classes.main} spacing={4}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>
             {products
-              .filter((product) => product.category.toLowerCase())
+              .filter(
+                (product) =>
+                  product.category
+                    .toLowerCase()
+                    .includes(props.search.toLowerCase()) ||
+                  product.name
+                    .toLowerCase()
+                    .includes(props.search.toLowerCase())
+              )
               .map((product) => (
                 <Grid key={product._id} item>
                   {" "}

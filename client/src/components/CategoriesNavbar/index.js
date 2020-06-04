@@ -32,6 +32,15 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem
+        id="All"
+        onClick={(e) => {
+          props.displayAll();
+          handleMobileMenuClose();
+        }}
+      >
+        All
+      </MenuItem>
+      <MenuItem
         id="blenders"
         value="blenders"
         onClick={(e) => {
@@ -86,6 +95,14 @@ export default function PrimarySearchAppBar(props) {
           />
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <MenuItem
+              id="All"
+              onClick={(e) => {
+                props.displayAll();
+              }}
+            >
+              All
+            </MenuItem>
             <MenuItem
               id="blenders"
               name="search"

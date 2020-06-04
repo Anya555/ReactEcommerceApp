@@ -38,7 +38,9 @@ function App() {
           {isAuthorized === true ? (
             <AdminDashboard search={search} />
           ) : (
-            <div>Not authorized</div>
+            <>
+              <div>Not authorized</div>
+            </>
           )}
         </Route>
         <Route exact path="/admin-post-form">
