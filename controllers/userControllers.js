@@ -25,9 +25,6 @@ module.exports = {
       const user = await User.findOne({ email });
       if (user) return next(new Error("Email already exists"));
 
-      const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-      if (user !== emailFormat)
-        return next(new Error("Please enter valid email"));
       // =============================================================//
       const hashedpassword = await hashPassword(password);
       const newUser = new User({

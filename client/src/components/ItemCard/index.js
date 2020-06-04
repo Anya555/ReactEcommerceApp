@@ -6,20 +6,17 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import SecondNavbar from "../SecondNavbar";
+import CategoriesNavbar from "../CategoriesNavbar";
 import { useStyles } from "./style";
 import API from "../../utils/API";
 
 export default function MediaCard(props) {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
-    if (props.query) {
-      displayItemCategory();
-    } else {
-      displayAll();
-    }
+    displayAll();
   }, []);
 
   const displayAll = () => {
@@ -47,7 +44,7 @@ export default function MediaCard(props) {
 
   return (
     <>
-      <SecondNavbar displayItemCategory={displayItemCategory} />
+      <CategoriesNavbar displayItemCategory={displayItemCategory} />
       <Grid container className={classes.main} spacing={4}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>

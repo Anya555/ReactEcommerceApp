@@ -3,11 +3,11 @@ import Container from "@material-ui/core/Container";
 import ItemCard from "../components/ItemCard";
 import { useStyles } from "./homePageStyle";
 
-const HomePage = () => {
+const HomePage = (props) => {
   const classes = useStyles({});
   return (
     <Container component="main" className={classes.main}>
-      <ItemCard />
+      <ItemCard search={props.search} />
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 // import Footer from "./components/Footer";
@@ -9,24 +9,44 @@ import AdminDashboard from "./components/AdminDashboard";
 import AdminPostForm from "./components/AdminPostForm";
 
 function App() {
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [user, setUser] = useState({});
+  const [search, setSearch] = React.useState("");
+
+  const userLogin = (userData) => {
+    setUser(userData);
+    if (userData.accessToken && userData.data.role === "admin") {
+      setIsAuthorized(true);
+    }
+  };
+
   return (
     <Router>
-      <Navbar />
+      <Navbar setSearch={setSearch} />
       <Switch>
         <Route exact path="/">
-          <HomePage />
+          <HomePage search={search} />
         </Route>
         <Route exact path="/login">
-          <Login />
+          <Login userLogin={userLogin} />
         </Route>
         <Route exact path="/signup">
           <Signup />
         </Route>
+
         <Route exact path="/admin-dashboard">
-          <AdminDashboard />
+          {isAuthorized === true ? (
+            <AdminDashboard search={search} />
+          ) : (
+            <div>Not authorized</div>
+          )}
         </Route>
         <Route exact path="/admin-post-form">
-          <AdminPostForm />
+          {isAuthorized === true ? (
+            <AdminPostForm />
+          ) : (
+            <div>Not authorized</div>
+          )}
         </Route>
       </Switch>
       {/* <Footer /> */}

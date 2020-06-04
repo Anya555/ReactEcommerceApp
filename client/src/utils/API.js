@@ -39,6 +39,6 @@ export default {
   displayCategory: (query) => {
     console.log("api route hit");
     console.log(query);
-    return axios.get("/api/items?category=" + query);
+    return axios.get("/api/items/getCategory?category=" + query);
   },
 };

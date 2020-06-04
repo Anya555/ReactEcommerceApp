@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -15,9 +15,9 @@ import AdminDashboard from "../AdminDashboard";
 
 const Signup = (props) => {
   const classes = useStyles({});
-  const [user, setUser] = useState({});
+
   const [formObject, setFormObject] = useState([]);
-  // console.log(user);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormObject({ ...formObject, [name]: value });
@@ -27,10 +27,10 @@ const Signup = (props) => {
     e.preventDefault();
     API.loginUser(formObject)
       .then((res) => {
-        setUser(res.data);
+        props.userLogin(res.data);
         console.log(res);
         // console.log("user is logged in");
-        // console.log(res.data.data.role);
+        // console.log(res.data.accessToken);
         if (res.data.data.role !== "admin") {
           props.history.replace("/");
         } else {
@@ -53,7 +53,6 @@ const Signup = (props) => {
           <Typography component="h1" variant="h5">
             Log in
           </Typography>
-
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -102,7 +101,6 @@ const Signup = (props) => {
             </Grid>
           </form>
         </div>
-        {/* <AdminDashboard user={user} /> */}
       </Container>
     </>
   );

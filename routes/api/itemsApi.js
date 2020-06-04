@@ -13,11 +13,13 @@ router
     itemController.create
   );
 
-router.route("/").get(
-  // userController.allowIfLoggedin,
-  // userController.grantAccess("read", "item"),
-  itemController.findAll
-);
+router
+  .route("/")
+  .get(
+    userController.allowIfLoggedin,
+    userController.grantAccess("read", "item"),
+    itemController.findAll
+  );
 
 router
   .route("/:id")
@@ -32,6 +34,6 @@ router
 router.route("/all").get(itemController.findAll);
 
 // =========== display items by a category on a home page ======= //
-router.route("/?").get(itemController.findCategory);
+router.route("/getCategory").get(itemController.findCategory);
 
 module.exports = router;

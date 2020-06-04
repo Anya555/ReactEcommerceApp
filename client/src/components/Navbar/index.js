@@ -15,7 +15,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import { useStyles } from "./style";
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -38,6 +38,10 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleInputChange = (e) => {
+    props.setSearch(e.target.value);
   };
 
   const menuId = "primary-search-account-menu";
@@ -137,6 +141,7 @@ export default function PrimarySearchAppBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={handleInputChange}
             />
           </div>
           <div className={classes.grow} />

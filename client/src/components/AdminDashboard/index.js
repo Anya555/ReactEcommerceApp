@@ -15,10 +15,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import API from "../../utils/API";
-import Login from "../Login";
 
-export default function SimpleTable({ user }) {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+export default function SimpleTable() {
   const [items, setItems] = useState([]);
   const classes = useStyles();
   const headers = [
@@ -32,15 +30,8 @@ export default function SimpleTable({ user }) {
   ];
 
   useEffect(() => {
-    // checkIfAuthorized();
     displayAll();
   }, []);
-  // console.log(user);
-  // const checkIfAuthorized = async () => {
-  //   if (await user.accessToken) {
-  //     setIsAuthorized(true);
-  //   }
-  // };
 
   const displayAll = () => {
     API.getAllItems()
