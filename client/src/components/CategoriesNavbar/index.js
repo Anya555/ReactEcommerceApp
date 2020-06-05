@@ -32,7 +32,6 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem
-        id="All"
         onClick={(e) => {
           props.displayAll();
           handleMobileMenuClose();
@@ -42,7 +41,6 @@ export default function PrimarySearchAppBar(props) {
       </MenuItem>
       <MenuItem
         id="blenders"
-        value="blenders"
         onClick={(e) => {
           props.displayItemCategory(e.currentTarget.id);
           handleMobileMenuClose();
@@ -52,7 +50,6 @@ export default function PrimarySearchAppBar(props) {
       </MenuItem>
       <MenuItem
         id="juicers"
-        value="juicers"
         onClick={(e) => {
           props.displayItemCategory(e.currentTarget.id);
           handleMobileMenuClose();
@@ -62,7 +59,6 @@ export default function PrimarySearchAppBar(props) {
       </MenuItem>
       <MenuItem
         id="dehydrators"
-        value="dehydrators"
         onClick={(e) => {
           props.displayItemCategory(e.currentTarget.id);
           handleMobileMenuClose();
@@ -72,7 +68,6 @@ export default function PrimarySearchAppBar(props) {
       </MenuItem>
       <MenuItem
         id="oilPresses"
-        value="oilPresses"
         onClick={(e) => {
           props.displayItemCategory(e.currentTarget.id);
           handleMobileMenuClose();
@@ -88,7 +83,7 @@ export default function PrimarySearchAppBar(props) {
       <AppBar position="static" className={classes.app}>
         <Toolbar>
           <img
-            src="./markaronic.pl.png"
+            src="./images/markaronic.pl.png"
             height="100px"
             width="200px"
             alt="logo"
@@ -105,32 +100,24 @@ export default function PrimarySearchAppBar(props) {
             </MenuItem>
             <MenuItem
               id="blenders"
-              name="search"
-              value="blenders"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >
               Blenders
             </MenuItem>
             <MenuItem
               id="juicers"
-              name="search"
-              value="juicers"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >
               Juicers
             </MenuItem>
             <MenuItem
               id="dehydrators"
-              name="search"
-              value="dehydrators"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >
               Dehydrators
             </MenuItem>
             <MenuItem
               id="oilPresses"
-              name="search"
-              value="oilPresses"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >
               Oil Presses

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -11,7 +11,6 @@ import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useStyles } from "./style";
 import API from "../../utils/API";
-import AdminDashboard from "../AdminDashboard";
 
 const Signup = (props) => {
   const classes = useStyles({});

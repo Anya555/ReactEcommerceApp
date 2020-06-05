@@ -9,10 +9,13 @@ import Container from "@material-ui/core/Container";
 import { useStyles } from "./style";
 import API from "../../utils/API";
 import MenuItem from "@material-ui/core/MenuItem";
+import ImageUpload from "../ImageUpload";
+import firebase from "../../firebase";
 
 const PostForm = (props) => {
   const classes = useStyles({});
   const [formObject, setFormObject] = useState([]);
+  const [image, setImage] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,12 +29,19 @@ const PostForm = (props) => {
         console.log(res);
       })
       .then(() => {
+        firebase.storage
+          .ref()
+          .child("images/" + image.name)
+          .put(image);
+      })
+      .then(() => {
         props.history.replace("/admin-dashboard");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -58,25 +68,16 @@ const PostForm = (props) => {
                 fullWidth
                 select
                 defaultValue=" "
-                id="category"
                 label="Category"
-                variant="outlined"
                 name="category"
+                variant="outlined"
                 onChange={handleInputChange}
               >
                 <MenuItem value=" ">...</MenuItem>
-                <MenuItem id="blenders" name="category" value="blenders">
-                  Blenders
-                </MenuItem>
-                <MenuItem id="juicers" name="category" value="juicers">
-                  Juicers
-                </MenuItem>
-                <MenuItem id="dehydrators" name="category" value="dehydrators">
-                  Dehydrators
-                </MenuItem>
-                <MenuItem id="oilPresses" name="category" value="oilPresses">
-                  Oil Presses
-                </MenuItem>
+                <MenuItem value="blenders">Blenders</MenuItem>
+                <MenuItem value="juicers">Juicers</MenuItem>
+                <MenuItem value="dehydrators">Dehydrators</MenuItem>
+                <MenuItem value="oilPresses">Oil Presses</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12}>
@@ -115,21 +116,7 @@ const PostForm = (props) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <div className={classes.root}>
-                <input
-                  accept="image/*"
-                  className={classes.input}
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  onChange={handleInputChange}
-                />
-                <label htmlFor="contained-button-file">
-                  <Button variant="contained" component="span" fullWidth>
-                    Select image
-                  </Button>
-                </label>
-              </div>
+              <ImageUpload setImage={setImage} />
             </Grid>
             <Grid item xs={12}>
               <Button

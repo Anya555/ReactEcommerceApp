@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 import Navbar from "./components/Navbar";
 // import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -7,6 +8,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminPostForm from "./components/AdminPostForm";
+import "./App.css";
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -33,13 +35,23 @@ function App() {
         <Route exact path="/signup">
           <Signup />
         </Route>
-
         <Route exact path="/admin-dashboard">
           {isAuthorized === true ? (
             <AdminDashboard search={search} />
           ) : (
             <>
-              <div>Not authorized</div>
+              <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                {" "}
+                <img src="./images/401.gif" className="unauthorized" />
+              </Grid>
+              <div className="no-access">
+                You're not authorized to access this page
+              </div>
             </>
           )}
         </Route>
@@ -47,7 +59,20 @@ function App() {
           {isAuthorized === true ? (
             <AdminPostForm />
           ) : (
-            <div>Not authorized</div>
+            <>
+              <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                {" "}
+                <img src="./images/401.gif" className="unauthorized" />
+              </Grid>
+              <div className="no-access">
+                You're not authorized to access this page
+              </div>
+            </>
           )}
         </Route>
       </Switch>

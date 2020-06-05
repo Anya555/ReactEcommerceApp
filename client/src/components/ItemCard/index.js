@@ -29,12 +29,9 @@ export default function MediaCard(props) {
   };
 
   const displayItemCategory = (query) => {
-    // console.log("this is called");
     API.displayCategory(query)
       .then((res) => {
         setProducts(res.data);
-        console.log(query);
-        console.log(res);
       })
       .catch((error) => {
         console.log(error);

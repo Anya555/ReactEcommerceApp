@@ -17,12 +17,4 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: "#ad1457",
     color: "#fafafa",
   },
-  root: {
-    "& > *": {
-      margin: theme.spacing(2, 0, 2),
-    },
-  },
-  input: {
-    display: "none",
-  },
 }));

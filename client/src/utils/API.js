@@ -37,8 +37,8 @@ export default {
 
   // =========== display items by category on a home page ====== //
   displayCategory: (query) => {
-    console.log("api route hit");
-    console.log(query);
+    // console.log("api route hit");
+    // console.log(query);
     return axios.get("/api/items/getCategory?category=" + query);
   },
 };
