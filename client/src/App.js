@@ -8,12 +8,14 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminPostForm from "./components/AdminPostForm";
+import Cart from "./components/Cart";
 import "./App.css";
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [user, setUser] = useState({});
   const [search, setSearch] = React.useState("");
+  const [image, setImage] = useState("");
 
   const userLogin = (userData) => {
     setUser(userData);
@@ -27,7 +29,7 @@ function App() {
       <Navbar setSearch={setSearch} />
       <Switch>
         <Route exact path="/">
-          <HomePage search={search} />
+          <HomePage search={search} image={image} />
         </Route>
         <Route exact path="/login">
           <Login userLogin={userLogin} />
@@ -37,7 +39,7 @@ function App() {
         </Route>
         <Route exact path="/admin-dashboard">
           {isAuthorized === true ? (
-            <AdminDashboard search={search} />
+            <AdminDashboard search={search} image={image} />
           ) : (
             <>
               <Grid
@@ -57,7 +59,7 @@ function App() {
         </Route>
         <Route exact path="/admin-post-form">
           {isAuthorized === true ? (
-            <AdminPostForm />
+            <AdminPostForm setImage={setImage} image={image} />
           ) : (
             <>
               <Grid
@@ -74,6 +76,9 @@ function App() {
               </div>
             </>
           )}
+        </Route>
+        <Route exact path="/cart">
+          <Cart />
         </Route>
       </Switch>
       {/* <Footer /> */}

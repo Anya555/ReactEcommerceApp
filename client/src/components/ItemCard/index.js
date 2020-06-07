@@ -9,6 +9,7 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import CategoriesNavbar from "../CategoriesNavbar";
 import { useStyles } from "./style";
 import API from "../../utils/API";
+import firebase from "../../firebase";
 
 export default function MediaCard(props) {
   const [products, setProducts] = useState([]);
@@ -20,8 +21,17 @@ export default function MediaCard(props) {
 
   const displayAll = () => {
     API.displayAllItems()
-      .then((res) => {
-        setProducts(res.data);
+      .then(async (res) => {
+        let items = res.data;
+        await items.map(async (item) => {
+          await firebase.storage
+            .ref("images/")
+            .child(item.image)
+            .getDownloadURL()
+            .then((url) => (item.imgUrl = url));
+          setProducts(items);
+          return item;
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -61,7 +71,12 @@ export default function MediaCard(props) {
                 <Grid key={product._id} item>
                   {" "}
                   <Card className={classes.root}>
-                    <img src="" alt="product" height="100px" width="100px" />
+                    <img
+                      src={product.imgUrl}
+                      alt="product"
+                      height="100px"
+                      width="100px"
+                    />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
                         {product.name}

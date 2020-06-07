@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,7 +15,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import { useStyles } from "./style";
 
-export default function PrimarySearchAppBar(props) {
+const PrimarySearchAppBar = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -56,14 +56,17 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link to="/login" style={{ textDecoration: "none" }}>
+        <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
           Log in
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <Link to="/signup" style={{ textDecoration: "none" }}>
+        <Link to="/signup" style={{ textDecoration: "none", color: "black" }}>
           Sign up
         </Link>
+      </MenuItem>
+      <MenuItem onClick={() => props.history.replace("/login")}>
+        Log out
       </MenuItem>
     </Menu>
   );
@@ -98,12 +101,14 @@ export default function PrimarySearchAppBar(props) {
         Contact us
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <IconButton aria-label="show 0 new notifications" color="inherit">
-          <Badge badgeContent={0} color="secondary">
-            <ShoppingCart />
-          </Badge>
-        </IconButton>
-        Shopping cart
+        <Link to="/cart" style={{ textDecoration: "none", color: "black" }}>
+          <IconButton aria-label="show 0 new notifications" color="inherit">
+            <Badge badgeContent={0} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+          Shopping cart
+        </Link>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -156,7 +161,7 @@ export default function PrimarySearchAppBar(props) {
             </IconButton>
             <IconButton aria-label="show 0 new notifications" color="inherit">
               <Badge badgeContent={0} color="secondary">
-                <Link to="/" style={{ color: "black" }}>
+                <Link to="/cart" style={{ color: "black" }}>
                   <ShoppingCart />
                 </Link>
               </Badge>
@@ -189,4 +194,5 @@ export default function PrimarySearchAppBar(props) {
       {renderMenu}
     </div>
   );
-}
+};
+export default withRouter(PrimarySearchAppBar);

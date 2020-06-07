@@ -7,7 +7,7 @@ const HomePage = (props) => {
   const classes = useStyles({});
   return (
     <Container component="main" className={classes.main}>
-      <ItemCard search={props.search} />
+      <ItemCard search={props.search} image={props.image} />
     </Container>
   );
 };

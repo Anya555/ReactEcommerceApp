@@ -27,9 +27,7 @@ const Signup = (props) => {
     API.loginUser(formObject)
       .then((res) => {
         props.userLogin(res.data);
-        console.log(res);
         // console.log("user is logged in");
-        // console.log(res.data.accessToken);
         if (res.data.data.role !== "admin") {
           props.history.replace("/");
         } else {

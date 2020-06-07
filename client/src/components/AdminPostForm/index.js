@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -15,31 +15,39 @@ import firebase from "../../firebase";
 const PostForm = (props) => {
   const classes = useStyles({});
   const [formObject, setFormObject] = useState([]);
-  const [image, setImage] = useState([]);
+  const [shouldSave, setShouldSave] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormObject({ ...formObject, [name]: value });
   };
 
+  useEffect(() => {
+    if (shouldSave === true) {
+      console.log(formObject);
+      API.postItem(formObject)
+        .then((res) => {
+          console.log(res);
+        })
+        .then(() => {
+          firebase.storage
+            .ref()
+            .child("images/" + props.image.name)
+            .put(props.image);
+        })
+        .then(() => {
+          props.history.replace("/admin-dashboard");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [shouldSave]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    API.postItem(formObject)
-      .then((res) => {
-        console.log(res);
-      })
-      .then(() => {
-        firebase.storage
-          .ref()
-          .child("images/" + image.name)
-          .put(image);
-      })
-      .then(() => {
-        props.history.replace("/admin-dashboard");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setFormObject({ ...formObject, image: props.image.name });
+    setShouldSave(true);
   };
 
   return (
@@ -116,7 +124,7 @@ const PostForm = (props) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <ImageUpload setImage={setImage} />
+              <ImageUpload setImage={props.setImage} />
             </Grid>
             <Grid item xs={12}>
               <Button
