@@ -7,21 +7,33 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import CategoriesNavbar from "../CategoriesNavbar";
+import LearnMore from "../LearnMore";
 import { useStyles } from "./style";
 import API from "../../utils/API";
 import firebase from "../../firebase";
 
-export default function MediaCard(props) {
-  const [products, setProducts] = useState([]);
+const MediaCard = (props) => {
   const classes = useStyles();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     displayAll();
   }, []);
 
+  const handleShow = (itemToShow) => {
+    const newProducts = products.map((product) => {
+      if (product._id === itemToShow._id) {
+        product.open = !product.open;
+      }
+      return product;
+    });
+    setProducts(newProducts);
+  };
+
   const displayAll = () => {
     API.displayAllItems()
       .then(async (res) => {
+        console.log(res.data);
         let items = res.data;
         await items.map(async (item) => {
           await firebase.storage
@@ -29,9 +41,10 @@ export default function MediaCard(props) {
             .child(item.image)
             .getDownloadURL()
             .then((url) => (item.imgUrl = url));
-          setProducts(items);
+
           return item;
         });
+        setProducts(items);
       })
       .catch((error) => {
         console.log(error);
@@ -85,9 +98,12 @@ export default function MediaCard(props) {
                     </CardContent>
                     <CardActions>
                       <AddShoppingCartIcon className={classes.cart} />
-                      <Button size="small">Learn More</Button>
+                      <Button size="small" onClick={() => handleShow(product)}>
+                        Learn More
+                      </Button>
                     </CardActions>
                   </Card>
+                  <LearnMore product={product} handleShow={handleShow} />
                 </Grid>
               ))}
           </Grid>
@@ -95,4 +111,5 @@ export default function MediaCard(props) {
       </Grid>
     </>
   );
-}
+};
+export default MediaCard;

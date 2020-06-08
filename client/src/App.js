@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminPostForm from "./components/AdminPostForm";
 import Cart from "./components/Cart";
+import LearnMore from "./components/LearnMore";
 import "./App.css";
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
   const [search, setSearch] = React.useState("");
   const [image, setImage] = useState("");
 
+  // this function checks if user is logged in and user's role is admin, if those conditions are met
+  // components will be rendered
   const userLogin = (userData) => {
     setUser(userData);
     if (userData.accessToken && userData.data.role === "admin") {
@@ -32,7 +35,7 @@ function App() {
           <HomePage search={search} image={image} />
         </Route>
         <Route exact path="/login">
-          <Login userLogin={userLogin} />
+          <Login userLogin={userLogin} user={user} />
         </Route>
         <Route exact path="/signup">
           <Signup />
@@ -49,7 +52,11 @@ function App() {
                 alignItems="center"
               >
                 {" "}
-                <img src="./images/401.gif" className="unauthorized" />
+                <img
+                  src="./images/401.gif"
+                  className="unauthorized"
+                  alt="unauthorized"
+                />
               </Grid>
               <div className="no-access">
                 You're not authorized to access this page
@@ -69,7 +76,11 @@ function App() {
                 alignItems="center"
               >
                 {" "}
-                <img src="./images/401.gif" className="unauthorized" />
+                <img
+                  src="./images/401.gif"
+                  className="unauthorized"
+                  alt="unauthorized"
+                />
               </Grid>
               <div className="no-access">
                 You're not authorized to access this page
@@ -79,6 +90,9 @@ function App() {
         </Route>
         <Route exact path="/cart">
           <Cart />
+        </Route>
+        <Route exact path="/learn-more">
+          <LearnMore />
         </Route>
       </Switch>
       {/* <Footer /> */}

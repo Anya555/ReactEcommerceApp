@@ -10,4 +10,8 @@ export const useStyles = makeStyles({
   main: {
     marginTop: "50px",
   },
+  learn: {
+    textDecoration: "none",
+    color: "black",
+  },
 });

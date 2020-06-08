@@ -2,8 +2,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: 100,
+    marginTop: 50,
     display: "flex",
+
     flexWrap: "wrap",
     "& > *": {
       margin: theme.spacing(1),
@@ -13,6 +14,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(5),
+    boxShadow: "none",
   },
   list: {
     listStyleType: "none",
@@ -22,5 +24,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   delete: {
     marginTop: 40,
+  },
+  heading: {
+    marginTop: 90,
+    textTransform: "uppercase",
+    textAlign: "center",
+    fontWeight: "bold",
   },
 }));
