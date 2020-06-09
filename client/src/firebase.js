@@ -17,5 +17,9 @@ class Firebase {
     app.initializeApp(config);
     this.storage = app.storage();
   }
+
+  getImage() {
+    return this.storage.ref("images/").listAll();
+  }
 }
 export default new Firebase();

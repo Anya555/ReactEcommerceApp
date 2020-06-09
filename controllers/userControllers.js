@@ -72,9 +72,10 @@ module.exports = {
           expiresIn: "1d",
         }
       );
+      console.log("user", user._id);
       await User.findByIdAndUpdate(user._id, { accessToken });
       res.status(200).json({
-        data: { email: user.email, role: user.role },
+        data: { email: user.email, role: user.role, userId: user._id },
         accessToken,
       });
     } catch (error) {
@@ -101,7 +102,6 @@ module.exports = {
   allowIfLoggedin: async (req, res, next) => {
     try {
       const user = res.locals.loggedInUser; // res.locals.loggedInUser variable holds the details of the logged-in user
-      // console.log(user);
       if (!user)
         return res.status(401).json({
           error: "You need to be logged in to access this route",

@@ -12,7 +12,7 @@ import { useStyles } from "./style";
 import API from "../../utils/API";
 import firebase from "../../firebase";
 
-const MediaCard = (props) => {
+const ItemCard = (props) => {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
 
@@ -20,6 +20,7 @@ const MediaCard = (props) => {
     displayAll();
   }, []);
 
+  // opens modal that holds product info, when 'Learn More' button clicked
   const handleShow = (itemToShow) => {
     const newProducts = products.map((product) => {
       if (product._id === itemToShow._id) {
@@ -30,19 +31,18 @@ const MediaCard = (props) => {
     setProducts(newProducts);
   };
 
+  // display all products from database
   const displayAll = () => {
     API.displayAllItems()
-      .then(async (res) => {
+      .then((res) => {
         console.log(res.data);
         let items = res.data;
-        await items.map(async (item) => {
+        items.map(async (item) => {
           await firebase.storage
             .ref("images/")
             .child(item.image)
             .getDownloadURL()
             .then((url) => (item.imgUrl = url));
-
-          return item;
         });
         setProducts(items);
       })
@@ -112,4 +112,4 @@ const MediaCard = (props) => {
     </>
   );
 };
-export default MediaCard;
+export default ItemCard;

@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme) => ({
   name: {
     textTransform: "uppercase",
   },
-  delete: {
+  close: {
     marginTop: 40,
   },
 }));

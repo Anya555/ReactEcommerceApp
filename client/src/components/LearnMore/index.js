@@ -31,7 +31,7 @@ export default function LearnMore(props) {
             </Grid>
             <Grid item xs={1}>
               <Button
-                className={classes.delete}
+                className={classes.close}
                 onClick={() => props.handleShow(props.product)}
               >
                 X

@@ -18,8 +18,8 @@ function App() {
   const [search, setSearch] = React.useState("");
   const [image, setImage] = useState("");
 
-  // this function checks if user is logged in and user's role is admin, if those conditions are met
-  // components will be rendered
+  //  if user is logged in and user's role is admin,
+  // admin-access restricted components will be rendered
   const userLogin = (userData) => {
     setUser(userData);
     if (userData.accessToken && userData.data.role === "admin") {
