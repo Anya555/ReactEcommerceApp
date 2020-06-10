@@ -37,8 +37,18 @@ export default {
 
   // =========== display items by category on a home page ====== //
   displayCategory: (query) => {
-    // console.log("api route hit");
     // console.log(query);
     return axios.get("/api/items/getCategory?category=" + query);
+  },
+
+  findItem: (id) => {
+    // console.log(id);
+    return axios.get("/api/cart/" + id);
+  },
+
+  // =========== add item to cart if user is logged in ======== //
+  addToCartIfLoggedIn: (item) => {
+    // console.log("itemBody", item);
+    return axios.post("/api/cart", item);
   },
 };

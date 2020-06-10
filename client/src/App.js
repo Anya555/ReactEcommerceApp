@@ -32,10 +32,10 @@ function App() {
       <Navbar setSearch={setSearch} />
       <Switch>
         <Route exact path="/">
-          <HomePage search={search} image={image} />
+          <HomePage search={search} image={image} user={user} />
         </Route>
         <Route exact path="/login">
-          <Login userLogin={userLogin} user={user} />
+          <Login userLogin={userLogin} />
         </Route>
         <Route exact path="/signup">
           <Signup />

@@ -112,4 +112,10 @@ module.exports = {
       next(error);
     }
   },
+
+  getUserId: async (req, res) => {
+    User.findById({ _id: req.params.id })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
 };

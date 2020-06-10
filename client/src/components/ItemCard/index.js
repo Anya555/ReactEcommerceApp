@@ -5,9 +5,9 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import CategoriesNavbar from "../CategoriesNavbar";
 import LearnMore from "../LearnMore";
+import AddToCart from "../AddToCart";
 import { useStyles } from "./style";
 import API from "../../utils/API";
 import firebase from "../../firebase";
@@ -97,7 +97,7 @@ const ItemCard = (props) => {
                       <div>Price: $ {product.price}</div>
                     </CardContent>
                     <CardActions>
-                      <AddShoppingCartIcon className={classes.cart} />
+                      <AddToCart product={product} user={props.user} />
                       <Button size="small" onClick={() => handleShow(product)}>
                         Learn More
                       </Button>

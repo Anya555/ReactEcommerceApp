@@ -4,9 +4,6 @@ export const useStyles = makeStyles({
   root: {
     maxWidth: 300,
   },
-  cart: {
-    color: "red",
-  },
   main: {
     marginTop: "50px",
   },
