@@ -3,15 +3,13 @@ const cartController = require("../../controllers/cartControllers");
 const itemController = require("../../controllers/itemControllers");
 const userController = require("../../controllers/userControllers");
 
-// === post item to cart for logged in user === //
-
+// === get item id that needs to be posted to cart === //
 router.route("/:id").get(itemController.getItemId);
 
-router.route("/").post(
-  // userController.allowIfLoggedin,
-  // userController.getUserId,
-  // itemController.getItemId,
-  cartController.create
-);
+// ===== add item to cart ============================ //
+router.route("/").post(cartController.create);
+
+// ===== find items in cart ========================== //
+router.route("/").get(cartController.getCartItems);
 
 module.exports = router;

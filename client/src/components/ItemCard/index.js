@@ -35,7 +35,6 @@ const ItemCard = (props) => {
   const displayAll = () => {
     API.displayAllItems()
       .then((res) => {
-        console.log(res.data);
         let items = res.data;
         items.map(async (item) => {
           await firebase.storage
@@ -44,6 +43,7 @@ const ItemCard = (props) => {
             .getDownloadURL()
             .then((url) => (item.imgUrl = url));
         });
+        console.log(items);
         setProducts(items);
       })
       .catch((error) => {

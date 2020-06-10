@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export default {
-  // =========== login and signup  ===================== //
+  // ===========  signup  ===================== //
   addUserToDb: (user) => {
     return axios.post("/api/users/signup", user);
   },
-
+  // ==========  login ========================= //
   loginUser: (user) => {
     return axios.post("/api/users/login", user).then((res) => {
       let accessToken = res.data.accessToken;
@@ -13,7 +13,6 @@ export default {
       return res;
     });
   },
-  // ========================================================== //
 
   // ================== restricted  for admin use ========= //
   postItem: (item) => {
@@ -25,22 +24,22 @@ export default {
   },
 
   deleteItem: (id) => {
-    // console.log(id);
     return axios.delete("/api/items/" + id);
   },
   // =========================================================== //
 
-  // =========== display items on a home page ================== //
+  // =========== display all items on a home page ================== //
   displayAllItems: () => {
     return axios.get("/api/items/all");
   },
 
-  // =========== display items by category on a home page ====== //
+  // =========== display items by a category on a home page ====== //
   displayCategory: (query) => {
     // console.log(query);
     return axios.get("/api/items/getCategory?category=" + query);
   },
 
+  // == get item's info that needs to be posted to cart by id ==== //
   findItem: (id) => {
     // console.log(id);
     return axios.get("/api/cart/" + id);
@@ -50,5 +49,9 @@ export default {
   addToCartIfLoggedIn: (item) => {
     // console.log("itemBody", item);
     return axios.post("/api/cart", item);
+  },
+
+  displayCartItems: () => {
+    return axios.get("/api/cart");
   },
 };

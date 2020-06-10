@@ -89,7 +89,7 @@ function App() {
           )}
         </Route>
         <Route exact path="/cart">
-          <Cart />
+          <Cart user={user} />
         </Route>
         <Route exact path="/learn-more">
           <LearnMore />
