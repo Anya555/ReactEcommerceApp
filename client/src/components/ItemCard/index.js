@@ -15,6 +15,7 @@ import firebase from "../../firebase";
 const ItemCard = (props) => {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     displayAll();
@@ -31,34 +32,39 @@ const ItemCard = (props) => {
     setProducts(newProducts);
   };
 
+  const setImageUrl = async (item) => {
+    return await firebase.storage
+      .ref("images/")
+      .child(item.image)
+      .getDownloadURL()
+      .then((url) => (item.imgUrl = url));
+  };
+
   // display all products from database
   const displayAll = () => {
     API.displayAllItems()
       .then((res) => {
         let items = res.data;
-        items.map(async (item) => {
-          await firebase.storage
-            .ref("images/")
-            .child(item.image)
-            .getDownloadURL()
-            .then((url) => (item.imgUrl = url));
+        items.forEach((item) => {
+          item.open = false;
         });
-        console.log(items);
-        setProducts(items);
+        Promise.all(items.map((item) => setImageUrl(item))).then(() => {
+          setProducts(items);
+          setFilteredProducts(items);
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  //
   const displayItemCategory = (query) => {
-    API.displayCategory(query)
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    let categoryItems = products;
+    categoryItems = categoryItems.filter((item) => {
+      return item.category.toLowerCase() === query.toLowerCase();
+    });
+    setFilteredProducts(categoryItems);
   };
 
   return (
@@ -70,7 +76,7 @@ const ItemCard = (props) => {
       <Grid container className={classes.main} spacing={4}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>
-            {products
+            {filteredProducts
               .filter(
                 (product) =>
                   product.category

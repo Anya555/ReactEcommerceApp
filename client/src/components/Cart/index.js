@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { useStyles } from "./style";
 import API from "../../utils/API";
+import firebase from "../../firebase";
 
 export default function Cart(props) {
   const classes = useStyles();
@@ -14,11 +15,20 @@ export default function Cart(props) {
     getCartContent();
   }, []);
 
+  const setImageUrl = async (item) => {
+    return await firebase.storage
+      .ref("images/")
+      .child(item.image)
+      .getDownloadURL()
+      .then((url) => (item.imgUrl = url));
+  };
+
   const getCartContent = () => {
     API.displayCartItems().then((res) => {
       console.log(res);
       const items = res.data;
       const userItems = [];
+      // accessToken identifies if user is logged in
       if (props.user.accessToken) {
         items.forEach((item) => {
           if (item.userId === props.user.data.userId) {
@@ -26,7 +36,9 @@ export default function Cart(props) {
           }
         });
       }
-      setCartItems(userItems);
+      Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
+        setCartItems(userItems);
+      });
     });
   };
 
@@ -37,10 +49,15 @@ export default function Cart(props) {
         <Grid item xs={12} sm={8}>
           {cartItems.map((item) => {
             return (
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} key={item._id}>
                 <Grid container spacing={3}>
                   <Grid item xs={4}>
-                    <img src="" alt="product" height="100px" weight="100px" />
+                    <img
+                      src={item.imgUrl}
+                      alt="product"
+                      height="100px"
+                      weight="100px"
+                    />
                   </Grid>
                   <Grid item xs={6}>
                     <ul className={classes.list}>
