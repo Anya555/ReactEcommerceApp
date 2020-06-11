@@ -28,7 +28,7 @@ const Signup = (props) => {
       .then((res) => {
         props.userLogin(res.data);
         if (res.data.data.role !== "admin") {
-          props.history.replace("/");
+          props.history.replace("/cart");
         } else {
           props.history.replace("admin-dashboard");
         }

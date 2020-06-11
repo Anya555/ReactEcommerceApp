@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const cartController = require("../../controllers/cartControllers");
 const itemController = require("../../controllers/itemControllers");
-const userController = require("../../controllers/userControllers");
 
 // === get item id that needs to be posted to cart === //
 router.route("/:id").get(itemController.getItemId);
@@ -11,5 +10,8 @@ router.route("/").post(cartController.create);
 
 // ===== find items in cart ========================== //
 router.route("/").get(cartController.getCartItems);
+
+// ===== delete item from cart ======================= //
+router.route("/:id").delete(cartController.remove);
 
 module.exports = router;

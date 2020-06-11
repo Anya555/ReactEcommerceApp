@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import API from "../../utils/API";
-import firebase from "../../firebase";
 
 const AddToCart = (props) => {
   const [cartItem, setCartItem] = useState({});

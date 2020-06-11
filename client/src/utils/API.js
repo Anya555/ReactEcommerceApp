@@ -35,17 +35,22 @@ export default {
 
   // == get item's info that needs to be posted to cart by id ==== //
   findItem: (id) => {
-    // console.log(id);
     return axios.get("/api/cart/" + id);
   },
 
   // =========== add item to cart ======== //
   addToCart: (item) => {
-    // console.log("itemBody", item);
     return axios.post("/api/cart", item);
   },
 
+  // =========== get all items stored in cart collection=== //
   displayCartItems: () => {
     return axios.get("/api/cart");
+  },
+
+  // =========== delete item from cart =================== //
+  deleteCartItem: (id) => {
+    console.log(id);
+    return axios.delete("/api/cart/" + id);
   },
 };

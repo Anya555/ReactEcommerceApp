@@ -10,6 +10,7 @@ import firebase from "../../firebase";
 export default function Cart(props) {
   const classes = useStyles();
   const [cartItems, setCartItems] = useState([]);
+  const [cartEmpty, setCartEmpty] = useState(false);
 
   useEffect(() => {
     getCartContent();
@@ -23,6 +24,7 @@ export default function Cart(props) {
       .then((url) => (item.imgUrl = url));
   };
 
+  // display items in cart
   const getCartContent = () => {
     API.displayCartItems().then((res) => {
       console.log(res);
@@ -33,6 +35,9 @@ export default function Cart(props) {
         items.forEach((item) => {
           if (item.userId === props.user.data.userId) {
             userItems.push(item);
+            setCartEmpty(false);
+          } else {
+            setCartEmpty(true);
           }
         });
       }
@@ -42,9 +47,22 @@ export default function Cart(props) {
     });
   };
 
+  const remove = (id) => {
+    API.deleteCartItem(id).then(() => {
+      getCartContent();
+    });
+  };
+
   return (
     <>
-      <Typography className={classes.heading}>Your Shopping Cart</Typography>
+      {cartEmpty === true ? (
+        <Typography className={classes.heading}>
+          Your Shopping Cart is empty
+        </Typography>
+      ) : (
+        <Typography className={classes.heading}>Your Shopping Cart</Typography>
+      )}
+
       <div className={classes.root}>
         <Grid item xs={12} sm={8}>
           {cartItems.map((item) => {
@@ -68,7 +86,12 @@ export default function Cart(props) {
                     </ul>
                   </Grid>
                   <Grid item xs={1}>
-                    <Button className={classes.delete}>Delete</Button>
+                    <Button
+                      className={classes.delete}
+                      onClick={() => remove(item._id)}
+                    >
+                      Delete
+                    </Button>
                   </Grid>
                 </Grid>
                 <hr></hr>
