@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import API from "../../utils/API";
+import firebase from "../../firebase";
 
 const AddToCart = (props) => {
   const [cartItem, setCartItem] = useState({});
@@ -9,7 +10,7 @@ const AddToCart = (props) => {
   useEffect(() => {
     if (shouldSave === true) {
       console.log(cartItem);
-      API.addToCartIfLoggedIn(cartItem)
+      API.addToCart(cartItem)
         .then((res) => {
           console.log(res);
         })

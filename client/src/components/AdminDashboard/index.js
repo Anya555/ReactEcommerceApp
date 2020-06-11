@@ -15,9 +15,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import API from "../../utils/API";
+import firebase from "../../firebase";
 
 export default function SimpleTable(props) {
-  const [items, setItems] = useState([]);
+  const [products, setProducts] = useState([]);
   const classes = useStyles();
   const headers = [
     { idx: 1, label: "Image" },
@@ -33,15 +34,37 @@ export default function SimpleTable(props) {
     displayAll();
   }, []);
 
+  const setImageUrl = async (item) => {
+    return await firebase.storage
+      .ref("images/")
+      .child(item.image)
+      .getDownloadURL()
+      .then((url) => (item.imgUrl = url));
+  };
+
   const displayAll = () => {
     API.getAllItems()
-      .then((res) => setItems(res.data))
+      .then((res) => {
+        let items = res.data;
+        Promise.all(items.map((item) => setImageUrl(item))).then(() => {
+          setProducts(items);
+        });
+      })
       .catch((err) => console.log(err));
   };
 
   const deleteFromDb = (id) => {
     API.deleteItem(id)
-      .then((res) => displayAll())
+      .then(() => {
+        products.map((product) => {
+          if (product._id === id) {
+            firebase.storage.ref("images/").child(product.image).delete();
+          }
+        });
+      })
+      .then(() => {
+        displayAll();
+      })
       .catch((error) => {
         console.log(error.response.data);
       });
@@ -72,29 +95,38 @@ export default function SimpleTable(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items
+              {products
                 .filter(
-                  (item) =>
-                    item.category
+                  (product) =>
+                    product.category
                       .toLowerCase()
                       .includes(props.search.toLowerCase()) ||
-                    item.name.toLowerCase().includes(props.search.toLowerCase())
+                    product.name
+                      .toLowerCase()
+                      .includes(props.search.toLowerCase())
                 )
-                .map((item) => {
+                .map((product) => {
                   return (
-                    <TableRow key={item._id}>
+                    <TableRow key={product._id}>
                       <TableCell className={classes.tableWidth}>
-                        <img src=" " alt="" width="100px" height="100px" />
+                        <img
+                          src={product.imgUrl}
+                          alt=""
+                          width="100px"
+                          height="100px"
+                        />
                       </TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.category}</TableCell>
-                      <TableCell>{item.quantity}</TableCell>
-                      <TableCell>{item.price}</TableCell>
+                      <TableCell>{product.name}</TableCell>
+                      <TableCell>{product.category}</TableCell>
+                      <TableCell>{product.quantity}</TableCell>
+                      <TableCell>{product.price}</TableCell>
                       <TableCell className={classes.description}>
-                        {item.description}
+                        {product.description}
                       </TableCell>
                       <TableCell>
-                        <DeleteForever onClick={() => deleteFromDb(item._id)} />
+                        <DeleteForever
+                          onClick={() => deleteFromDb(product._id)}
+                        />
                       </TableCell>
                     </TableRow>
                   );

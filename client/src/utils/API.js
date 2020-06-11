@@ -33,20 +33,14 @@ export default {
     return axios.get("/api/items/all");
   },
 
-  // =========== display items by a category on a home page ====== //
-  displayCategory: (query) => {
-    // console.log(query);
-    return axios.get("/api/items/getCategory?category=" + query);
-  },
-
   // == get item's info that needs to be posted to cart by id ==== //
   findItem: (id) => {
     // console.log(id);
     return axios.get("/api/cart/" + id);
   },
 
-  // =========== add item to cart if user is logged in ======== //
-  addToCartIfLoggedIn: (item) => {
+  // =========== add item to cart ======== //
+  addToCart: (item) => {
     // console.log("itemBody", item);
     return axios.post("/api/cart", item);
   },
