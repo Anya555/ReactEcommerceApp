@@ -32,6 +32,7 @@ const ItemCard = (props) => {
     setProducts(newProducts);
   };
 
+  // get url for each image from firebase
   const setImageUrl = async (item) => {
     return await firebase.storage
       .ref("images/")
@@ -58,7 +59,7 @@ const ItemCard = (props) => {
       });
   };
 
-  //
+  // display items by category
   const displayItemCategory = (query) => {
     let categoryItems = products;
     categoryItems = categoryItems.filter((item) => {

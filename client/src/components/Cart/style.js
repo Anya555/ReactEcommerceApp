@@ -31,4 +31,17 @@ export const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     fontWeight: "bold",
   },
+  subtotal: {
+    textAlign: "center",
+    textTransform: "uppercase",
+  },
+  checkout: {
+    marginTop: 50,
+    width: "100%",
+    backgroundColor: "black",
+    color: "#4caf50",
+  },
+  card: {
+    backgroundColor: "#eeeeee",
+  },
 }));

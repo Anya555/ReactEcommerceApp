@@ -10,11 +10,15 @@ import firebase from "../../firebase";
 export default function Cart(props) {
   const classes = useStyles();
   const [cartItems, setCartItems] = useState([]);
-  const [cartEmpty, setCartEmpty] = useState(false);
+  const [shouldCalc, setShouldCalc] = useState(false);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     getCartContent();
-  }, []);
+    if (shouldCalc === true) {
+      calcTotal();
+    }
+  }, [shouldCalc]);
 
   const setImageUrl = async (item) => {
     return await firebase.storage
@@ -27,7 +31,6 @@ export default function Cart(props) {
   // display items in cart
   const getCartContent = () => {
     API.displayCartItems().then((res) => {
-      console.log(res);
       const items = res.data;
       const userItems = [];
       // accessToken identifies if user is logged in
@@ -35,32 +38,48 @@ export default function Cart(props) {
         items.forEach((item) => {
           if (item.userId === props.user.data.userId) {
             userItems.push(item);
-            setCartEmpty(false);
-          } else {
-            setCartEmpty(true);
           }
         });
       }
       Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
         setCartItems(userItems);
+        setShouldCalc(true);
       });
     });
   };
 
+  // delete item from cart
   const remove = (id) => {
     API.deleteCartItem(id).then(() => {
       getCartContent();
+      setShouldCalc(true);
     });
+  };
+
+  // calculate cart subtotal
+  const calcTotal = () => {
+    let sum = 0;
+    cartItems.forEach((item) => {
+      sum += item.price;
+    });
+    setTotal(sum);
   };
 
   return (
     <>
-      {cartEmpty === true ? (
+      {cartItems.length > 1 ? (
         <Typography className={classes.heading}>
-          Your Shopping Cart is empty
+          Your Shopping Cart Has {cartItems.length} Items
+        </Typography>
+      ) : cartItems.length === 1 ? (
+        <Typography className={classes.heading}>
+          {" "}
+          Your Shopping Cart Has 1 Item
         </Typography>
       ) : (
-        <Typography className={classes.heading}>Your Shopping Cart</Typography>
+        <Typography className={classes.heading}>
+          Your shopping cart is empty
+        </Typography>
       )}
 
       <div className={classes.root}>
@@ -98,6 +117,17 @@ export default function Cart(props) {
               </Paper>
             );
           })}
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <Paper className={classes.card}>
+            <br></br>
+            <Typography className={classes.subtotal}>
+              Subtotal: ${total}
+            </Typography>
+            <Button variant="contained" className={classes.checkout}>
+              Proceed to checkout
+            </Button>
+          </Paper>
         </Grid>
       </div>
     </>

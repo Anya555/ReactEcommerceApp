@@ -50,7 +50,6 @@ export default {
 
   // =========== delete item from cart =================== //
   deleteCartItem: (id) => {
-    console.log(id);
     return axios.delete("/api/cart/" + id);
   },
 };
