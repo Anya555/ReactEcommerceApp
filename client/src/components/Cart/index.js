@@ -10,15 +10,10 @@ import firebase from "../../firebase";
 export default function Cart(props) {
   const classes = useStyles();
   const [cartItems, setCartItems] = useState([]);
-  const [shouldCalc, setShouldCalc] = useState(false);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     getCartContent();
-    if (shouldCalc === true) {
-      calcTotal();
-    }
-  }, [shouldCalc]);
+  }, []);
 
   const setImageUrl = async (item) => {
     return await firebase.storage
@@ -32,7 +27,7 @@ export default function Cart(props) {
   const getCartContent = () => {
     API.displayCartItems().then((res) => {
       const items = res.data;
-      const userItems = [];
+      let userItems = [];
       // accessToken identifies if user is logged in
       if (props.user.accessToken) {
         items.forEach((item) => {
@@ -40,29 +35,27 @@ export default function Cart(props) {
             userItems.push(item);
           }
         });
+      } else {
+        userItems = JSON.parse(localStorage.getItem("items")) || [];
+        console.log(userItems);
       }
       Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
         setCartItems(userItems);
-        setShouldCalc(true);
       });
     });
   };
 
   // delete item from cart
   const remove = (id) => {
-    API.deleteCartItem(id).then(() => {
+    if (props.user.accessToken) {
+      API.deleteCartItem(id).then(() => {
+        getCartContent();
+      });
+    } else {
+      let newItems = cartItems.filter((item) => item._id !== id);
+      localStorage.setItem("items", JSON.stringify(newItems));
       getCartContent();
-      setShouldCalc(true);
-    });
-  };
-
-  // calculate cart subtotal
-  const calcTotal = () => {
-    let sum = 0;
-    cartItems.forEach((item) => {
-      sum += item.price;
-    });
-    setTotal(sum);
+    }
   };
 
   return (
@@ -122,7 +115,7 @@ export default function Cart(props) {
           <Paper className={classes.card}>
             <br></br>
             <Typography className={classes.subtotal}>
-              Subtotal: ${total}
+              Subtotal: ${cartItems.reduce((acc, item) => acc + item.price, 0)}
             </Typography>
             <Button variant="contained" className={classes.checkout}>
               Proceed to checkout

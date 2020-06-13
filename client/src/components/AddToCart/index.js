@@ -5,6 +5,7 @@ import API from "../../utils/API";
 const AddToCart = (props) => {
   const [cartItem, setCartItem] = useState({});
   const [shouldSave, setShouldSave] = useState(false);
+  const [storageItems, setStorageItems] = useState([]);
 
   useEffect(() => {
     if (shouldSave === true) {
@@ -22,7 +23,6 @@ const AddToCart = (props) => {
   const getItemId = (id) => {
     API.findItem(id)
       .then((res) => {
-        console.log(res);
         if (props.user.accessToken) {
           setCartItem({
             userId: props.user.data.userId,
@@ -32,10 +32,21 @@ const AddToCart = (props) => {
             price: res.data.price,
           });
           setShouldSave(true);
+        } else {
+          let items = JSON.parse(localStorage.getItem("items")) || [];
+          let item = {
+            _id: res.data._id,
+            image: res.data.image,
+            name: res.data.name,
+            price: res.data.price,
+          };
+          items.push(item);
+          setStorageItems(items);
+          localStorage.setItem("items", JSON.stringify(items));
         }
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error);
       });
   };
 
