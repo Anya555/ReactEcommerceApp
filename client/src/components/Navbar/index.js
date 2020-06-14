@@ -65,7 +65,12 @@ const PrimarySearchAppBar = (props) => {
           Sign up
         </Link>
       </MenuItem>
-      <MenuItem onClick={() => props.history.replace("/login")}>
+      <MenuItem
+        onClick={() => {
+          props.history.replace("/login");
+          handleMenuClose();
+        }}
+      >
         Log out
       </MenuItem>
     </Menu>
@@ -159,7 +164,7 @@ const PrimarySearchAppBar = (props) => {
               </Link>
             </IconButton>
             <IconButton color="inherit">
-              <Link to="/contact" style={{ color: "black" }}>
+              <Link to="/contact" style={{ color: "#4caf50" }}>
                 <MailIcon />
               </Link>
             </IconButton>

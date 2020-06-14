@@ -52,4 +52,11 @@ export default {
   deleteCartItem: (id) => {
     return axios.delete("/api/cart/" + id);
   },
+
+  // =============== send email =========================== //
+  sendEmail: (message) => {
+    console.log(message);
+    console.log("api route hit");
+    return axios.post("/api/email", message);
+  },
 };

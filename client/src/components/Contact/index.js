@@ -5,12 +5,36 @@ import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { useStyles } from "./style";
 import API from "../../utils/API";
 
 const Contact = () => {
   const classes = useStyles({});
+  const defaultInput = { name: "", email: "", message: "" };
+  const [formObject, setFormObject] = useState({});
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormObject({ ...formObject, [name]: value });
+  };
+
+  const clearPrevInput = () => {
+    setFormObject(defaultInput);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    API.sendEmail(formObject)
+      .then((res) => {
+        console.log(res);
+        clearPrevInput();
+        // window.location.reload(false);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -28,6 +52,17 @@ const Contact = () => {
                   label="Full name"
                   variant="outlined"
                   name="name"
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  label="Email address"
+                  variant="outlined"
+                  name="email"
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -38,6 +73,7 @@ const Contact = () => {
                   name="message"
                   multiline
                   rows={8}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -46,6 +82,7 @@ const Contact = () => {
                   fullWidth
                   variant="contained"
                   className={classes.submit}
+                  onClick={handleSubmit}
                 >
                   Send message
                 </Button>

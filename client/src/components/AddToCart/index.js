@@ -9,7 +9,6 @@ const AddToCart = (props) => {
 
   useEffect(() => {
     if (shouldSave === true) {
-      console.log(cartItem);
       API.addToCart(cartItem)
         .then((res) => {
           console.log(res);
