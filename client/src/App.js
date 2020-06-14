@@ -10,6 +10,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import AdminPostForm from "./components/AdminPostForm";
 import Cart from "./components/Cart";
 import LearnMore from "./components/LearnMore";
+import Contact from "./components/Contact";
 import "./App.css";
 
 function App() {
@@ -93,6 +94,9 @@ function App() {
         </Route>
         <Route exact path="/learn-more">
           <LearnMore />
+        </Route>
+        <Route exact path="/contact">
+          <Contact />
         </Route>
       </Switch>
       {/* <Footer /> */}

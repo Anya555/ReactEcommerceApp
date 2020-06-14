@@ -23,6 +23,7 @@ const AddToCart = (props) => {
   const getItemId = (id) => {
     API.findItem(id)
       .then((res) => {
+        // if user is registered, save item to mongoDB
         if (props.user.accessToken) {
           setCartItem({
             userId: props.user.data.userId,
@@ -32,6 +33,7 @@ const AddToCart = (props) => {
             price: res.data.price,
           });
           setShouldSave(true);
+          // if user is unregistered, items will be saved in localStorage
         } else {
           let items = JSON.parse(localStorage.getItem("items")) || [];
           let item = {

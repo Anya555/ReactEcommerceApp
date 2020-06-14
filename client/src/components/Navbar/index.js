@@ -93,12 +93,14 @@ const PrimarySearchAppBar = (props) => {
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <IconButton color="inherit">
-          <Badge color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        Contact us
+        <Link to="/contact" style={{ textDecoration: "none", color: "black" }}>
+          <IconButton color="inherit">
+            <Badge color="secondary">
+              <MailIcon />
+            </Badge>
+          </IconButton>
+          Contact us
+        </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <Link to="/cart" style={{ textDecoration: "none", color: "black" }}>
@@ -156,8 +158,10 @@ const PrimarySearchAppBar = (props) => {
                 <Home />
               </Link>
             </IconButton>
-            <IconButton color="inherit" style={{ color: "#4caf50" }}>
-              <MailIcon />
+            <IconButton color="inherit">
+              <Link to="/contact" style={{ color: "black" }}>
+                <MailIcon />
+              </Link>
             </IconButton>
             <IconButton aria-label="show 0 new notifications" color="inherit">
               <Badge badgeContent={0} color="secondary">

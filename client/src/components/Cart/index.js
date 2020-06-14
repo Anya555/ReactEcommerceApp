@@ -35,9 +35,9 @@ export default function Cart(props) {
             userItems.push(item);
           }
         });
+        // if no logged in user found, check for items saved to local storage
       } else {
         userItems = JSON.parse(localStorage.getItem("items")) || [];
-        console.log(userItems);
       }
       Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
         setCartItems(userItems);
@@ -47,12 +47,14 @@ export default function Cart(props) {
 
   // delete item from cart
   const remove = (id) => {
+    // if user is logged in, delete item from MongoDB
     if (props.user.accessToken) {
       API.deleteCartItem(id).then(() => {
         getCartContent();
       });
     } else {
       let newItems = cartItems.filter((item) => item._id !== id);
+
       localStorage.setItem("items", JSON.stringify(newItems));
       getCartContent();
     }
@@ -74,7 +76,6 @@ export default function Cart(props) {
           Your shopping cart is empty
         </Typography>
       )}
-
       <div className={classes.root}>
         <Grid item xs={12} sm={8}>
           {cartItems.map((item) => {
