@@ -43,8 +43,7 @@ const AddToCart = (props) => {
             setShouldSave(true);
           } else {
             let item = props.cartItems.find((item) => item.itemId === id);
-            console.log(item);
-            API.updateQuantity(item.itemId, {
+            API.updateQuantity(item._id, {
               cartQuantity: (item.cartQuantity += 1),
             }).then((res) => {
               console.log(res);

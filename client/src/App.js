@@ -16,10 +16,10 @@ import "./App.css";
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [user, setUser] = useState({});
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = useState("");
   const [image, setImage] = useState("");
   const [cartItems, setCartItems] = useState([]);
-  const [itemsCount, setItemsCount] = useState("");
+  const [itemsCount, setItemsCount] = useState(0);
 
   //  if user is logged in and user's role is admin,
   // admin-access restricted components will be rendered
@@ -32,7 +32,11 @@ function App() {
 
   return (
     <Router>
-      <Navbar setSearch={setSearch} itemsCount={itemsCount} />
+      <Navbar
+        setSearch={setSearch}
+        itemsCount={itemsCount}
+        cartItems={cartItems}
+      />
       <Switch>
         <Route exact path="/">
           <HomePage

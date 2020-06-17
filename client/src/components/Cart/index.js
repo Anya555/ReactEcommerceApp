@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +11,6 @@ import firebase from "../../firebase";
 
 export default function Cart(props) {
   const classes = useStyles();
-  const [storageItems, setStorageItems] = useState([]);
 
   useEffect(() => {
     getCartContent();
@@ -28,7 +27,6 @@ export default function Cart(props) {
   // display items in cart
   const getCartContent = () => {
     API.displayCartItems().then((res) => {
-      // console.log(res);
       const items = res.data;
       let userItems = [];
       // accessToken identifies if user is logged in
@@ -45,12 +43,13 @@ export default function Cart(props) {
       Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
         props.setCartItems(userItems);
       });
+
       // display total number of items added to cart
-      let totalOfItemsInCart = userItems.reduce(
+      let totalItemsInCart = userItems.reduce(
         (acc, item) => acc + item.cartQuantity,
         0
       );
-      props.setItemsCount(totalOfItemsInCart);
+      props.setItemsCount(totalItemsInCart);
     });
   };
 
@@ -62,6 +61,7 @@ export default function Cart(props) {
         getCartContent();
       });
     } else {
+      // for not registered users
       // remove all items with same id from cart
       let newItems = props.cartItems.filter((item) => item._id !== id);
       localStorage.setItem("items", JSON.stringify(newItems));
@@ -73,19 +73,32 @@ export default function Cart(props) {
     e.preventDefault();
     const { name, value } = e.target;
 
-    // update item quantity based on user input
-    props.cartItems.find((item) => item._id === id).cartQuantity =
-      e.target.value;
+    if (props.user.accessToken) {
+      // if user logged in
+      let item = props.cartItems.find((item) => item._id === id);
+      console.log(item);
+      console.log(e.target.value);
+      API.updateQuantity(item._id, {
+        cartQuantity: (item.cartQuantity = e.target.value),
+      }).then((res) => {
+        console.log(res);
+        getCartContent();
+      });
+    } else {
+      // for not registered users
 
-    setStorageItems({ ...props.cartItems });
-    localStorage.setItem("items", JSON.stringify(props.cartItems));
-
-    // display total number of items added to cart
-    let totalOfItemsInCart = props.cartItems.reduce(
-      (acc, item) => acc + item.cartQuantity,
-      0
-    );
-    props.setItemsCount(totalOfItemsInCart);
+      // update item quantity based on user input
+      props.cartItems.find((item) => item._id === id).cartQuantity =
+        e.target.value;
+      localStorage.setItem("items", JSON.stringify(props.cartItems));
+      getCartContent();
+      // display total number of items added to cart based on user input
+      // let totalItemsInCart = props.cartItems.reduce(
+      //   (acc, item) => acc + item.cartQuantity,
+      //   0
+      // );
+      // props.setItemsCount(totalItemsInCart);
+    }
   };
 
   return (
