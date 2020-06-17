@@ -21,6 +21,12 @@ const CartSchema = new Schema({
     type: Number,
     required: true,
   },
+  dbQuantity: {
+    type: Number,
+  },
+  cartQuantity: {
+    type: Number,
+  },
 });
 const Cart = mongoose.model("cart", CartSchema);
 module.exports = Cart;

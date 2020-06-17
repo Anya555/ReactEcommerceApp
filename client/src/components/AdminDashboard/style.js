@@ -20,4 +20,7 @@ export const useStyles = makeStyles((theme) => ({
   fab: {
     marginTop: theme.spacing(11),
   },
+  delete: {
+    cursor: "pointer",
+  },
 }));

@@ -92,7 +92,7 @@ export default function PrimarySearchAppBar(props) {
           <div className={classes.sectionDesktop}>
             <MenuItem
               id="All"
-              onClick={(e) => {
+              onClick={() => {
                 props.displayAll();
               }}
             >

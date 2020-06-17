@@ -18,6 +18,7 @@ function App() {
   const [user, setUser] = useState({});
   const [search, setSearch] = React.useState("");
   const [image, setImage] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
   //  if user is logged in and user's role is admin,
   // admin-access restricted components will be rendered
@@ -30,10 +31,15 @@ function App() {
 
   return (
     <Router>
-      <Navbar setSearch={setSearch} />
+      <Navbar setSearch={setSearch} cartItems={cartItems} />
       <Switch>
         <Route exact path="/">
-          <HomePage search={search} image={image} user={user} />
+          <HomePage
+            search={search}
+            image={image}
+            user={user}
+            cartItems={cartItems}
+          />
         </Route>
         <Route exact path="/login">
           <Login userLogin={userLogin} />
@@ -90,7 +96,7 @@ function App() {
           )}
         </Route>
         <Route exact path="/cart">
-          <Cart user={user} />
+          <Cart user={user} cartItems={cartItems} setCartItems={setCartItems} />
         </Route>
         <Route exact path="/learn-more">
           <LearnMore />

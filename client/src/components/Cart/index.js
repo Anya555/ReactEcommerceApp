@@ -3,13 +3,15 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import { useStyles } from "./style";
 import API from "../../utils/API";
 import firebase from "../../firebase";
 
 export default function Cart(props) {
   const classes = useStyles();
-  const [cartItems, setCartItems] = useState([]);
+  const [storageItems, setStorageItems] = useState([]);
 
   useEffect(() => {
     getCartContent();
@@ -26,6 +28,7 @@ export default function Cart(props) {
   // display items in cart
   const getCartContent = () => {
     API.displayCartItems().then((res) => {
+      // console.log(res);
       const items = res.data;
       let userItems = [];
       // accessToken identifies if user is logged in
@@ -40,7 +43,7 @@ export default function Cart(props) {
         userItems = JSON.parse(localStorage.getItem("items")) || [];
       }
       Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
-        setCartItems(userItems);
+        props.setCartItems(userItems);
       });
     });
   };
@@ -53,20 +56,31 @@ export default function Cart(props) {
         getCartContent();
       });
     } else {
-      let newItems = cartItems.filter((item) => item._id !== id);
-
+      // remove all items with same id from cart
+      let newItems = props.cartItems.filter((item) => item._id !== id);
       localStorage.setItem("items", JSON.stringify(newItems));
       getCartContent();
     }
   };
 
+  const handleQuantity = (id) => (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    props.cartItems.find((item) => item._id === id).cartQuantity =
+      e.target.value;
+
+    setStorageItems({ ...props.cartItems });
+    localStorage.setItem("items", JSON.stringify(props.cartItems));
+  };
+
   return (
     <>
-      {cartItems.length > 1 ? (
+      {props.cartItems.length > 1 ? (
         <Typography className={classes.heading}>
-          Your Shopping Cart Has {cartItems.length} Items
+          Your Shopping Cart Has {props.cartItems.length} Items
         </Typography>
-      ) : cartItems.length === 1 ? (
+      ) : props.cartItems.length === 1 ? (
         <Typography className={classes.heading}>
           {" "}
           Your Shopping Cart Has 1 Item
@@ -78,25 +92,43 @@ export default function Cart(props) {
       )}
       <div className={classes.root}>
         <Grid item xs={12} sm={8}>
-          {cartItems.map((item) => {
+          {props.cartItems.map((item) => {
             return (
               <Paper className={classes.paper} key={item._id}>
                 <Grid container spacing={3}>
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <img
                       src={item.imgUrl}
                       alt="product"
                       height="100px"
-                      weight="100px"
+                      width="100px"
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={5}>
                     <ul className={classes.list}>
                       <li className={classes.name}>{item.name}</li>
                       <br></br>
                       <br></br>
                       <li>Price: ${item.price}</li>
                     </ul>
+                  </Grid>
+                  <Grid item xs={2} className={classes.quantity}>
+                    <TextField
+                      select
+                      label="Qty: "
+                      value={item.cartQuantity}
+                      name="cartQuantity"
+                      variant="outlined"
+                      onChange={handleQuantity(item._id)}
+                    >
+                      <MenuItem value={item.cartQuantity}>
+                        {item.cartQuantity}
+                      </MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                    </TextField>
                   </Grid>
                   <Grid item xs={1}>
                     <Button
@@ -116,7 +148,8 @@ export default function Cart(props) {
           <Paper className={classes.card}>
             <br></br>
             <Typography className={classes.subtotal}>
-              Subtotal: ${cartItems.reduce((acc, item) => acc + item.price, 0)}
+              Subtotal: $
+              {props.cartItems.reduce((acc, item) => acc + item.price, 0)}
             </Typography>
             <Button variant="contained" className={classes.checkout}>
               Proceed to checkout

@@ -39,7 +39,7 @@ const PostForm = (props) => {
           props.history.replace("/admin-dashboard");
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response);
         });
     }
   }, [shouldSave]);
@@ -92,10 +92,10 @@ const PostForm = (props) => {
               <TextField
                 required
                 fullWidth
-                id="quantity"
+                id="dbQuantity"
                 label="Quantity"
                 variant="outlined"
-                name="quantity"
+                name="dbQuantity"
                 onChange={handleInputChange}
               />
             </Grid>

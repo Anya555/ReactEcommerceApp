@@ -53,10 +53,16 @@ export default {
     return axios.delete("/api/cart/" + id);
   },
 
+  // ============ update cart quantity ==================== //
+  updateQuantity: (id, quantity) => {
+    console.log(quantity);
+    console.log(id);
+    console.log("api route hit");
+    return axios.put("/api/cart/" + id, quantity);
+  },
+
   // =============== send email =========================== //
   sendEmail: (message) => {
-    console.log(message);
-    console.log("api route hit");
     return axios.post("/api/email", message);
   },
 };

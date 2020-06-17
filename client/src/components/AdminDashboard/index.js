@@ -118,13 +118,14 @@ export default function SimpleTable(props) {
                       </TableCell>
                       <TableCell>{product.name}</TableCell>
                       <TableCell>{product.category}</TableCell>
-                      <TableCell>{product.quantity}</TableCell>
+                      <TableCell>{product.dbQuantity}</TableCell>
                       <TableCell>{product.price}</TableCell>
                       <TableCell className={classes.description}>
                         {product.description}
                       </TableCell>
                       <TableCell>
                         <DeleteForever
+                          className={classes.delete}
                           onClick={() => deleteFromDb(product._id)}
                         />
                       </TableCell>

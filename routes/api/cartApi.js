@@ -14,4 +14,7 @@ router.route("/").get(cartController.getCartItems);
 // ===== delete item from cart ======================= //
 router.route("/:id").delete(cartController.remove);
 
+// ===== update cart item quantity =================== //
+router.route("/:id").put(cartController.updateCartQuantity);
+
 module.exports = router;

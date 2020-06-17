@@ -17,8 +17,8 @@ module.exports = {
     let mailOptions = {
       from: email,
       to: "annapanas0906@gmail.com",
-      subject: "You received new email from " + name,
-      text: message,
+      subject: `You received new email from ${email}`,
+      text: `Email sender: ${name}  \n\n ${message}`,
     };
 
     transporter.sendMail(mailOptions, (err, info) => {

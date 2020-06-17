@@ -109,8 +109,8 @@ const PrimarySearchAppBar = (props) => {
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <Link to="/cart" style={{ textDecoration: "none", color: "black" }}>
-          <IconButton aria-label="show 0 new notifications" color="inherit">
-            <Badge badgeContent={0} color="secondary">
+          <IconButton aria-label="show 1 new notifications" color="inherit">
+            <Badge badgeContent={props.cartItems.length} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>
@@ -169,7 +169,7 @@ const PrimarySearchAppBar = (props) => {
               </Link>
             </IconButton>
             <IconButton aria-label="show 0 new notifications" color="inherit">
-              <Badge badgeContent={0} color="secondary">
+              <Badge badgeContent={props.cartItems.length} color="secondary">
                 <Link to="/cart" style={{ color: "black" }}>
                   <ShoppingCart />
                 </Link>

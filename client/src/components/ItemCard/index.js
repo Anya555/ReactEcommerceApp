@@ -32,7 +32,6 @@ const ItemCard = (props) => {
     setProducts(newProducts);
   };
 
-  // get url for each image from firebase
   const setImageUrl = async (item) => {
     return await firebase.storage
       .ref("images/")
@@ -104,7 +103,11 @@ const ItemCard = (props) => {
                       <div>Price: $ {product.price}</div>
                     </CardContent>
                     <CardActions>
-                      <AddToCart product={product} user={props.user} />
+                      <AddToCart
+                        product={product}
+                        user={props.user}
+                        cartItems={props.cartItems}
+                      />
                       <Button size="small" onClick={() => handleShow(product)}>
                         Learn More
                       </Button>

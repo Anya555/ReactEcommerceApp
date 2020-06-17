@@ -10,9 +10,12 @@ const itemsSchema = new Schema({
     type: String,
     required: true,
   },
-  quantity: {
+  dbQuantity: {
     type: Number,
     required: true,
+  },
+  cartQuantity: {
+    type: Number,
   },
   price: {
     type: Number,

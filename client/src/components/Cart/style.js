@@ -44,4 +44,7 @@ export const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: "#eeeeee",
   },
+  quantity: {
+    marginTop: 40,
+  },
 }));
