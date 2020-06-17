@@ -45,6 +45,12 @@ export default function Cart(props) {
       Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
         props.setCartItems(userItems);
       });
+      // display total number of items added to cart
+      let totalOfItemsInCart = userItems.reduce(
+        (acc, item) => acc + item.cartQuantity,
+        0
+      );
+      props.setItemsCount(totalOfItemsInCart);
     });
   };
 
@@ -67,20 +73,28 @@ export default function Cart(props) {
     e.preventDefault();
     const { name, value } = e.target;
 
+    // update item quantity based on user input
     props.cartItems.find((item) => item._id === id).cartQuantity =
       e.target.value;
 
     setStorageItems({ ...props.cartItems });
     localStorage.setItem("items", JSON.stringify(props.cartItems));
+
+    // display total number of items added to cart
+    let totalOfItemsInCart = props.cartItems.reduce(
+      (acc, item) => acc + item.cartQuantity,
+      0
+    );
+    props.setItemsCount(totalOfItemsInCart);
   };
 
   return (
     <>
-      {props.cartItems.length > 1 ? (
+      {props.itemsCount > 1 ? (
         <Typography className={classes.heading}>
-          Your Shopping Cart Has {props.cartItems.length} Items
+          Your Shopping Cart Has {props.itemsCount} Items
         </Typography>
-      ) : props.cartItems.length === 1 ? (
+      ) : props.itemsCount === 1 ? (
         <Typography className={classes.heading}>
           {" "}
           Your Shopping Cart Has 1 Item
@@ -149,7 +163,10 @@ export default function Cart(props) {
             <br></br>
             <Typography className={classes.subtotal}>
               Subtotal: $
-              {props.cartItems.reduce((acc, item) => acc + item.price, 0)}
+              {props.cartItems.reduce(
+                (acc, item) => acc + item.price * item.cartQuantity,
+                0
+              )}
             </Typography>
             <Button variant="contained" className={classes.checkout}>
               Proceed to checkout
