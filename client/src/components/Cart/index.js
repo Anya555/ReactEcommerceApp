@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -7,98 +7,99 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { useStyles } from "./style";
 import API from "../../utils/API";
-import firebase from "../../firebase";
 
 export default function Cart(props) {
   const classes = useStyles();
-
-  useEffect(() => {
-    getCartContent();
-  }, []);
-
-  const setImageUrl = async (item) => {
-    return await firebase.storage
-      .ref("images/")
-      .child(item.image)
-      .getDownloadURL()
-      .then((url) => (item.imgUrl = url));
-  };
-
-  // display items in cart
-  const getCartContent = () => {
-    API.displayCartItems().then((res) => {
-      const items = res.data;
-      let userItems = [];
-      // accessToken identifies if user is logged in
-      if (props.user.accessToken) {
-        items.forEach((item) => {
-          if (item.userId === props.user.data.userId) {
-            userItems.push(item);
-          }
-        });
-        // if no logged in user found, check for items saved to local storage
-      } else {
-        userItems = JSON.parse(localStorage.getItem("items")) || [];
-      }
-      Promise.all(userItems.map((item) => setImageUrl(item))).then(() => {
-        props.setCartItems(userItems);
-      });
-
-      // display total number of items added to cart
-      let totalItemsInCart = userItems.reduce(
-        (acc, item) => acc + item.cartQuantity,
-        0
-      );
-      props.setItemsCount(totalItemsInCart);
-    });
-  };
+  const [isHigher, setIsHigher] = useState([]);
 
   // delete item from cart
   const remove = (id) => {
+    let newItems = props.cartItems.filter((item) => item._id !== id);
+
     // if user is logged in, delete item from MongoDB
     if (props.user.accessToken) {
       API.deleteCartItem(id).then(() => {
-        getCartContent();
+        props.setCartItems(newItems);
+        props.setShouldGetCartContent(true);
       });
     } else {
       // for not registered users
       // remove all items with same id from cart
-      let newItems = props.cartItems.filter((item) => item._id !== id);
       localStorage.setItem("items", JSON.stringify(newItems));
-      getCartContent();
+      props.setCartItems(newItems);
+      props.setShouldGetCartContent(true);
     }
   };
 
+  // update items quantity in cart based on user input
   const handleQuantity = (id) => (e) => {
     e.preventDefault();
     const { name, value } = e.target;
 
+    let item = props.cartItems.find((item) => item._id === id);
+
+    // user input can not exceed items in stock
+    if (e.target.value > item.dbQuantity) {
+      e.target.value = item.dbQuantity;
+
+      setIsHigher([...isHigher, item._id]);
+    } else {
+      setIsHigher(isHigher.filter((id) => item._id !== id));
+    }
     if (props.user.accessToken) {
       // if user logged in
-      let item = props.cartItems.find((item) => item._id === id);
-      console.log(item);
-      console.log(e.target.value);
-      API.updateQuantity(item._id, {
+      API.updateCartQuantity(item._id, {
         cartQuantity: (item.cartQuantity = e.target.value),
-      }).then((res) => {
-        console.log(res);
-        getCartContent();
+      }).then(() => {
+        props.setCartItems(props.cartItems);
+        props.setShouldGetCartContent(true);
       });
     } else {
       // for not registered users
-
-      // update item quantity based on user input
-      props.cartItems.find((item) => item._id === id).cartQuantity =
-        e.target.value;
+      item.cartQuantity = e.target.value;
       localStorage.setItem("items", JSON.stringify(props.cartItems));
-      getCartContent();
-      // display total number of items added to cart based on user input
-      // let totalItemsInCart = props.cartItems.reduce(
-      //   (acc, item) => acc + item.cartQuantity,
-      //   0
-      // );
-      // props.setItemsCount(totalItemsInCart);
+      props.setCartItems(props.cartItems);
     }
+  };
+
+  // update items count in database on buyout
+  const updateInStockQty = () => {
+    API.displayAllItems().then((res) => {
+      let products = res.data;
+
+      props.cartItems.forEach((item, index) => {
+        products.forEach((product) => {
+          if (props.user.accessToken) {
+            if (item.itemId === product._id) {
+              API.updateDbQuantity(product._id, {
+                dbQuantity: (product.dbQuantity -= item.cartQuantity),
+              })
+                .then(() => {
+                  remove(item._id);
+                })
+                .catch((error) => {
+                  console.log(error.response);
+                });
+            }
+          } else {
+            if (item._id === product._id) {
+              API.updateDbQuantity(product._id, {
+                dbQuantity: (product.dbQuantity -= item.cartQuantity),
+              })
+                .then(() => {
+                  if (index === props.cartItems.length - 1) {
+                    console.log(item);
+                    localStorage.removeItem(props.cartItems);
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
+          }
+        });
+      });
+    });
   };
 
   return (
@@ -117,13 +118,14 @@ export default function Cart(props) {
           Your shopping cart is empty
         </Typography>
       )}
+
       <div className={classes.root}>
         <Grid item xs={12} sm={8}>
           {props.cartItems.map((item) => {
             return (
               <Paper className={classes.paper} key={item._id}>
                 <Grid container spacing={3}>
-                  <Grid item xs={3}>
+                  <Grid item xs={2}>
                     <img
                       src={item.imgUrl}
                       alt="product"
@@ -131,15 +133,19 @@ export default function Cart(props) {
                       width="100px"
                     />
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                     <ul className={classes.list}>
                       <li className={classes.name}>{item.name}</li>
                       <br></br>
-                      <br></br>
                       <li>Price: ${item.price}</li>
+                      {item.dbQuantity === 0 ? (
+                        <li className={classes.stock}>Out of stock</li>
+                      ) : (
+                        <li className={classes.stock}>In stock</li>
+                      )}
                     </ul>
                   </Grid>
-                  <Grid item xs={2} className={classes.quantity}>
+                  <Grid item xs={4} className={classes.quantity}>
                     <TextField
                       select
                       label="Qty: "
@@ -148,14 +154,17 @@ export default function Cart(props) {
                       variant="outlined"
                       onChange={handleQuantity(item._id)}
                     >
-                      <MenuItem value={item.cartQuantity}>
-                        {item.cartQuantity}
-                      </MenuItem>
+                      <MenuItem value={1}>1</MenuItem>
                       <MenuItem value={2}>2</MenuItem>
                       <MenuItem value={3}>3</MenuItem>
                       <MenuItem value={4}>4</MenuItem>
                       <MenuItem value={5}>5</MenuItem>
                     </TextField>
+                    {isHigher.includes(item._id) ? (
+                      <div className={classes.message}>
+                        Sorry, only {item.dbQuantity} left items in stock!
+                      </div>
+                    ) : null}
                   </Grid>
                   <Grid item xs={1}>
                     <Button
@@ -181,7 +190,11 @@ export default function Cart(props) {
                 0
               )}
             </Typography>
-            <Button variant="contained" className={classes.checkout}>
+            <Button
+              variant="contained"
+              className={classes.checkout}
+              onClick={updateInStockQty}
+            >
               Proceed to checkout
             </Button>
           </Paper>

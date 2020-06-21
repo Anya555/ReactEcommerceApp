@@ -12,6 +12,10 @@ const HomePage = (props) => {
         image={props.image}
         user={props.user}
         cartItems={props.cartItems}
+        setCartItems={props.setCartItems}
+        itemsCount={props.itemsCount}
+        setItemsCount={props.setItemsCount}
+        setShouldGetCartContent={props.setShouldGetCartContent}
       />
     </Container>
   );

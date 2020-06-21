@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Navbar from "./components/Navbar";
@@ -12,22 +12,67 @@ import Cart from "./components/Cart";
 import LearnMore from "./components/LearnMore";
 import Contact from "./components/Contact";
 import "./App.css";
+import API from "./utils/API";
+import firebase from "./firebase";
 
 function App() {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState({});
   const [search, setSearch] = useState("");
   const [image, setImage] = useState("");
   const [cartItems, setCartItems] = useState([]);
   const [itemsCount, setItemsCount] = useState(0);
+  const [shouldGetCartContent, setShouldGetCartContent] = useState(true);
+
+  useEffect(() => {
+    if (shouldGetCartContent === true) {
+      getCartContent();
+    }
+  }, [user, cartItems, shouldGetCartContent]);
 
   //  if user is logged in and user's role is admin,
   // admin-access restricted components will be rendered
   const userLogin = (userData) => {
     setUser(userData);
+    setShouldGetCartContent(true);
     if (userData.accessToken && userData.data.role === "admin") {
-      setIsAuthorized(true);
+      setIsAdmin(true);
     }
+  };
+
+  // display items in cart
+  const getCartContent = () => {
+    API.displayCartItems().then((res) => {
+      const items = res.data;
+      let userItems = [];
+      // accessToken identifies if user is logged in
+      if (user.accessToken) {
+        items.forEach((item) => {
+          if (item.userId === user.data.userId) {
+            userItems.push(item);
+          }
+        });
+        // if no logged in user found, check for items saved to local storage
+      } else {
+        userItems = JSON.parse(localStorage.getItem("items")) || [];
+      }
+      Promise.all(userItems.map((item) => firebase.setImageUrl(item))).then(
+        () => {
+          setCartItems(userItems);
+        }
+      );
+      displayCartItemsQty(userItems);
+      setShouldGetCartContent(false);
+    });
+  };
+
+  // display total number of items added to cart
+  const displayCartItemsQty = (userItems) => {
+    let totalItemsInCart = userItems.reduce(
+      (acc, item) => acc + item.cartQuantity,
+      0
+    );
+    setItemsCount(totalItemsInCart);
   };
 
   return (
@@ -45,6 +90,9 @@ function App() {
             user={user}
             cartItems={cartItems}
             setCartItems={setCartItems}
+            itemsCount={itemsCount}
+            setItemsCount={setItemsCount}
+            setShouldGetCartContent={setShouldGetCartContent}
           />
         </Route>
         <Route exact path="/login">
@@ -54,7 +102,7 @@ function App() {
           <Signup />
         </Route>
         <Route exact path="/admin-dashboard">
-          {isAuthorized === true ? (
+          {isAdmin === true ? (
             <AdminDashboard search={search} image={image} />
           ) : (
             <>
@@ -78,7 +126,7 @@ function App() {
           )}
         </Route>
         <Route exact path="/admin-post-form">
-          {isAuthorized === true ? (
+          {isAdmin === true ? (
             <AdminPostForm setImage={setImage} image={image} />
           ) : (
             <>
@@ -108,6 +156,7 @@ function App() {
             setCartItems={setCartItems}
             itemsCount={itemsCount}
             setItemsCount={setItemsCount}
+            setShouldGetCartContent={setShouldGetCartContent}
           />
         </Route>
         <Route exact path="/learn-more">

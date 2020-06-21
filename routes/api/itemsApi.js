@@ -36,4 +36,7 @@ router.route("/all").get(itemController.findAll);
 // =========== display items by a category on a home page ======= //
 router.route("/getCategory").get(itemController.findCategory);
 
+// =========== update items quantity in DB ============================ //
+router.route("/:id").put(itemController.updateDBQuantity);
+
 module.exports = router;

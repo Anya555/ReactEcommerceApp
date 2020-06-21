@@ -6,28 +6,32 @@ import API from "../../utils/API";
 const AddToCart = (props) => {
   const [itemToSave, setItemToSave] = useState({});
   const [shouldSave, setShouldSave] = useState(false);
-  const [storageItems, setStorageItems] = useState([]);
 
   useEffect(() => {
     if (shouldSave === true) {
-      API.addToCart(itemToSave)
-        .then((res) => {
-          console.log(res);
-          props.history.replace("/cart");
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
+      addItemToDB();
     }
   }, [shouldSave]);
 
-  const getItemId = (id) => {
+  const addItemToDB = () => {
+    API.addToCart(itemToSave)
+      .then((res) => {
+        props.setItemsCount(props.itemsCount + 1);
+        props.setCartItems([...props.cartItems, res.data]);
+        console.log(res.data);
+        props.setShouldGetCartContent(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const addItemToCart = (id) => {
     API.findItem(id)
       .then((res) => {
         let currentlyInCart = props.cartItems.find(
           (item) => item.itemId === id
         );
-        // console.log(currentlyInCart);
         // if user is registered, save item to mongoDB
         if (props.user.accessToken) {
           if (!currentlyInCart) {
@@ -42,39 +46,10 @@ const AddToCart = (props) => {
             });
             setShouldSave(true);
           } else {
-            let item = props.cartItems.find((item) => item.itemId === id);
-            API.updateQuantity(item._id, {
-              cartQuantity: (item.cartQuantity += 1),
-            }).then((res) => {
-              console.log(res);
-              props.history.replace("/cart");
-            });
+            updateItemQuantityInDB(id);
           }
-        }
-
-        // if user is unregistered, items will be saved in localStorage
-        if (!props.user.accessToken) {
-          let items = JSON.parse(localStorage.getItem("items")) || [];
-
-          let isItemInCart = items.find((item) => item._id === id);
-
-          if (isItemInCart) {
-            items.find((item) => item._id === id).cartQuantity += 1;
-          } else {
-            let item = {
-              _id: res.data._id,
-              image: res.data.image,
-              name: res.data.name,
-              price: res.data.price,
-              dbQuantity: res.data.dbQuantity,
-              cartQuantity: 1,
-            };
-            items.push(item);
-          }
-
-          setStorageItems(items);
-          localStorage.setItem("items", JSON.stringify(items));
-          props.history.replace("/cart");
+        } else {
+          addItemToLocalStorage(id, res);
         }
       })
       .catch((error) => {
@@ -82,11 +57,51 @@ const AddToCart = (props) => {
       });
   };
 
+  const updateItemQuantityInDB = (id) => {
+    let item = props.cartItems.find((item) => item.itemId === id);
+    console.log(item);
+    API.updateCartQuantity(item.itemId, {
+      cartQuantity: (item.cartQuantity += 1),
+    })
+      .then(() => {
+        props.setItemsCount(props.itemsCount + 1);
+        // props.setShouldGetCartContent(true);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
+  // if user is unregistered, items will be saved in localStorage
+  const addItemToLocalStorage = (id, res) => {
+    let items = JSON.parse(localStorage.getItem("items")) || [];
+
+    let isItemInCart = items.find((item) => item._id === id);
+
+    if (isItemInCart) {
+      items.find((item) => item._id === id).cartQuantity += 1;
+    } else {
+      let item = {
+        _id: res.data._id,
+        image: res.data.image,
+        name: res.data.name,
+        price: res.data.price,
+        dbQuantity: res.data.dbQuantity,
+        cartQuantity: 1,
+      };
+      items.push(item);
+    }
+    localStorage.setItem("items", JSON.stringify(items));
+    props.setItemsCount(props.itemsCount + 1);
+    props.setCartItems(items);
+    props.setShouldGetCartContent(true);
+  };
+
   return (
     <>
       <AddShoppingCartIcon
         style={{ color: "red", cursor: "pointer" }}
-        onClick={() => getItemId(props.product._id)}
+        onClick={() => addItemToCart(props.product._id)}
       />
     </>
   );

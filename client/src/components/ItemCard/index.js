@@ -32,26 +32,21 @@ const ItemCard = (props) => {
     setProducts(newProducts);
   };
 
-  const setImageUrl = async (item) => {
-    return await firebase.storage
-      .ref("images/")
-      .child(item.image)
-      .getDownloadURL()
-      .then((url) => (item.imgUrl = url));
-  };
-
   // display all products from database
   const displayAll = () => {
     API.displayAllItems()
       .then((res) => {
+        // when 'Learn More' button is clicked, open property will change to 'true' and item modal will open up
         let items = res.data;
         items.forEach((item) => {
           item.open = false;
         });
-        Promise.all(items.map((item) => setImageUrl(item))).then(() => {
-          setProducts(items);
-          setFilteredProducts(items);
-        });
+        Promise.all(items.map((item) => firebase.setImageUrl(item))).then(
+          () => {
+            setProducts(items);
+            setFilteredProducts(items);
+          }
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -101,13 +96,30 @@ const ItemCard = (props) => {
                         {product.name}
                       </Typography>
                       <div>Price: $ {product.price}</div>
+                      {product.dbQuantity === 0 ? (
+                        <div className={classes.stock}>Out of stock</div>
+                      ) : (
+                        <div className={classes.stock}>
+                          In stock: {product.dbQuantity}
+                        </div>
+                      )}
                     </CardContent>
+
                     <CardActions>
-                      <AddToCart
-                        product={product}
-                        user={props.user}
-                        cartItems={props.cartItems}
-                      />
+                      {product.dbQuantity > 0 ? (
+                        <AddToCart
+                          product={product}
+                          user={props.user}
+                          cartItems={props.cartItems}
+                          setCartItems={props.setCartItems}
+                          itemsCount={props.itemsCount}
+                          setItemsCount={props.setItemsCount}
+                          setShouldGetCartContent={
+                            props.setShouldGetCartContent
+                          }
+                        />
+                      ) : null}
+
                       <Button size="small" onClick={() => handleShow(product)}>
                         Learn More
                       </Button>

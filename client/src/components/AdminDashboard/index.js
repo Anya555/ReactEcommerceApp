@@ -17,7 +17,7 @@ import Fab from "@material-ui/core/Fab";
 import API from "../../utils/API";
 import firebase from "../../firebase";
 
-export default function SimpleTable(props) {
+export default function Dashboard(props) {
   const [products, setProducts] = useState([]);
   const classes = useStyles();
   const headers = [
@@ -34,21 +34,15 @@ export default function SimpleTable(props) {
     displayAll();
   }, []);
 
-  const setImageUrl = async (item) => {
-    return await firebase.storage
-      .ref("images/")
-      .child(item.image)
-      .getDownloadURL()
-      .then((url) => (item.imgUrl = url));
-  };
-
   const displayAll = () => {
     API.getAllItems()
       .then((res) => {
         let items = res.data;
-        Promise.all(items.map((item) => setImageUrl(item))).then(() => {
-          setProducts(items);
-        });
+        Promise.all(items.map((item) => firebase.setImageUrl(item))).then(
+          () => {
+            setProducts(items);
+          }
+        );
       })
       .catch((err) => console.log(err));
   };
@@ -57,6 +51,7 @@ export default function SimpleTable(props) {
     API.deleteItem(id)
       .then(() => {
         products.map((product) => {
+          // delete image from firebase storage when deleting item from mongoDB
           if (product._id === id) {
             firebase.storage.ref("images/").child(product.image).delete();
           }
@@ -66,7 +61,7 @@ export default function SimpleTable(props) {
         displayAll();
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error.response);
       });
   };
 

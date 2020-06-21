@@ -39,4 +39,10 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+
+  updateDBQuantity: function (req, res) {
+    db.Items.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
 };

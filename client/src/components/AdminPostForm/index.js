@@ -16,33 +16,37 @@ const PostForm = (props) => {
   const classes = useStyles({});
   const [formObject, setFormObject] = useState([]);
   const [shouldSave, setShouldSave] = useState(false);
+  
+  useEffect(() => {
+    if (shouldSave === true) {
+      addItemToDb();
+    }
+  }, [shouldSave]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormObject({ ...formObject, [name]: value });
   };
 
-  useEffect(() => {
-    if (shouldSave === true) {
-      console.log(formObject);
-      API.postItem(formObject)
-        .then((res) => {
-          console.log(res);
-        })
-        .then(() => {
-          firebase.storage
-            .ref()
-            .child("images/" + props.image.name)
-            .put(props.image);
-        })
-        .then(() => {
-          props.history.replace("/admin-dashboard");
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-    }
-  }, [shouldSave]);
+  const addItemToDb = () => {
+    API.postItem(formObject)
+      .then((res) => {
+        console.log(res);
+      })
+      .then(() => {
+        // save image name for each item to mongoDB
+        firebase.storage
+          .ref()
+          .child("images/" + props.image.name)
+          .put(props.image);
+      })
+      .then(() => {
+        props.history.replace("/admin-dashboard");
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();

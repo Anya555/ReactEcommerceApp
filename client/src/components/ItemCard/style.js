@@ -11,4 +11,7 @@ export const useStyles = makeStyles({
     textDecoration: "none",
     color: "black",
   },
+  stock: {
+    color: "green",
+  },
 });

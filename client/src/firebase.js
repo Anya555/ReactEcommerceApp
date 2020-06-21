@@ -17,5 +17,13 @@ class Firebase {
     app.initializeApp(config);
     this.storage = app.storage();
   }
+
+  setImageUrl = async (item) => {
+    return await this.storage
+      .ref("images/")
+      .child(item.image)
+      .getDownloadURL()
+      .then((url) => (item.imgUrl = url));
+  };
 }
 export default new Firebase();

@@ -54,13 +54,14 @@ export default {
   },
 
   // ============ update cart quantity ==================== //
-  updateQuantity: (id, quantity) => {
-    console.log(quantity);
-    console.log(id);
-    console.log("api route hit");
+  updateCartQuantity: (id, quantity) => {
     return axios.put("/api/cart/" + id, quantity);
   },
 
+  // ============ update db quantity ======================= //
+  updateDbQuantity: (id, quantity) => {
+    return axios.put("/api/items/" + id, quantity);
+  },
   // =============== send email =========================== //
   sendEmail: (message) => {
     return axios.post("/api/email", message);

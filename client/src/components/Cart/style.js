@@ -47,4 +47,10 @@ export const useStyles = makeStyles((theme) => ({
   quantity: {
     marginTop: 40,
   },
+  stock: {
+    color: "green",
+  },
+  message: {
+    color: "red",
+  },
 }));
