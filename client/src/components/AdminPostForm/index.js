@@ -16,7 +16,7 @@ const PostForm = (props) => {
   const classes = useStyles({});
   const [formObject, setFormObject] = useState([]);
   const [shouldSave, setShouldSave] = useState(false);
-  
+
   useEffect(() => {
     if (shouldSave === true) {
       addItemToDb();
@@ -30,12 +30,9 @@ const PostForm = (props) => {
 
   const addItemToDb = () => {
     API.postItem(formObject)
-      .then((res) => {
-        console.log(res);
-      })
-      .then(() => {
+      .then(async () => {
         // save image name for each item to mongoDB
-        firebase.storage
+        return await firebase.storage
           .ref()
           .child("images/" + props.image.name)
           .put(props.image);

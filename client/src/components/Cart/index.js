@@ -37,28 +37,32 @@ export default function Cart(props) {
     const { name, value } = e.target;
 
     let item = props.cartItems.find((item) => item._id === id);
+    validateQtyInStock(item, value);
 
-    // user input can not exceed items in stock
-    if (e.target.value > item.dbQuantity) {
-      e.target.value = item.dbQuantity;
-
-      setIsHigher([...isHigher, item._id]);
-    } else {
-      setIsHigher(isHigher.filter((id) => item._id !== id));
-    }
     if (props.user.accessToken) {
       // if user logged in
       API.updateCartQuantity(item._id, {
-        cartQuantity: (item.cartQuantity = e.target.value),
+        cartQuantity: (item.cartQuantity = value),
       }).then(() => {
         props.setCartItems(props.cartItems);
         props.setShouldGetCartContent(true);
       });
     } else {
       // for not registered users
-      item.cartQuantity = e.target.value;
+      item.cartQuantity = value;
       localStorage.setItem("items", JSON.stringify(props.cartItems));
       props.setCartItems(props.cartItems);
+    }
+  };
+
+  const validateQtyInStock = (item, value) => {
+    // user input can not exceed items in stock
+    if (value > item.dbQuantity) {
+      value = item.dbQuantity;
+
+      setIsHigher([...isHigher, item._id]);
+    } else {
+      setIsHigher(isHigher.filter((id) => item._id !== id));
     }
   };
 
@@ -66,40 +70,44 @@ export default function Cart(props) {
   const updateInStockQty = () => {
     API.displayAllItems().then((res) => {
       let products = res.data;
-
       props.cartItems.forEach((item, index) => {
-        products.forEach((product) => {
-          if (props.user.accessToken) {
-            if (item.itemId === product._id) {
-              API.updateDbQuantity(product._id, {
-                dbQuantity: (product.dbQuantity -= item.cartQuantity),
-              })
-                .then(() => {
-                  remove(item._id);
-                })
-                .catch((error) => {
-                  console.log(error.response);
-                });
-            }
-          } else {
-            if (item._id === product._id) {
-              API.updateDbQuantity(product._id, {
-                dbQuantity: (product.dbQuantity -= item.cartQuantity),
-              })
-                .then(() => {
-                  if (index === props.cartItems.length - 1) {
-                    console.log(item);
-                    localStorage.removeItem(props.cartItems);
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            }
-          }
-        });
+        if (props.user.accessToken) {
+          updateInStockQtyMongo(item, products);
+        } else {
+          updateInStockQtyLocalStorage(item, index, products);
+        }
       });
     });
+  };
+
+  const updateInStockQtyMongo = (item, products) => {
+    const product = products.find((product) => item.itemId === product._id);
+    API.updateDbQuantity(product._id, {
+      dbQuantity: (product.dbQuantity -= item.cartQuantity),
+    })
+      .then(() => {
+        remove(item._id);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
+  const updateInStockQtyLocalStorage = (item, index, products) => {
+    const product = products.find((product) => item._id === product._id);
+    API.updateDbQuantity(product._id, {
+      dbQuantity: (product.dbQuantity -= item.cartQuantity),
+    })
+      .then(() => {
+        if (index === props.cartItems.length - 1) {
+          localStorage.removeItem("items");
+          props.setCartItems([]);
+          props.setShouldGetCartContent(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -110,7 +118,6 @@ export default function Cart(props) {
         </Typography>
       ) : props.itemsCount === 1 ? (
         <Typography className={classes.heading}>
-          {" "}
           Your Shopping Cart Has 1 Item
         </Typography>
       ) : (
