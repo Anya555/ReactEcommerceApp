@@ -70,7 +70,7 @@ export default function Dashboard(props) {
       <CssBaseline />
       <Link to="/admin-post-form">
         <Tooltip title="Add" aria-label="add" className={classes.fab}>
-          <Fab color="secondary">
+          <Fab style={{ backgroundColor: "#880e4f", color: "white" }}>
             <AddIcon />
           </Fab>
         </Tooltip>

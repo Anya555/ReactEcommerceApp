@@ -21,6 +21,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   name: {
     textTransform: "uppercase",
+    fontWeight: "bold",
   },
   delete: {
     marginTop: 40,
@@ -30,6 +31,8 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
     textAlign: "center",
     fontWeight: "bold",
+    textDecoration: "underline",
+    textDecorationColor: "#0097a7",
   },
   subtotal: {
     textAlign: "center",
@@ -38,19 +41,28 @@ export const useStyles = makeStyles((theme) => ({
   checkout: {
     marginTop: 50,
     width: "100%",
-    backgroundColor: "black",
-    color: "#4caf50",
+    backgroundColor: "#80cbc4",
+    color: "black",
+    borderRadius: 0,
   },
   card: {
     backgroundColor: "#eeeeee",
+    borderRadius: 0,
   },
   quantity: {
     marginTop: 40,
   },
   stock: {
-    color: "green",
+    color: "#00838f",
+    textTransform: "uppercase",
+    fontSize: "small",
   },
   message: {
     color: "red",
+  },
+  price: {
+    textTransform: "uppercase",
+    fontSize: "small",
+    fontWeight: "bold",
   },
 }));

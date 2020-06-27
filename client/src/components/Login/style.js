@@ -13,12 +13,12 @@ export const useStyles = makeStyles((theme) => ({
   },
   icon: {
     margin: theme.spacing(1),
-    backgroundColor: "red",
+    backgroundColor: "#880e4f",
   },
   submit: {
     margin: theme.spacing(2, 0, 2),
-    backgroundColor: "#bdbdbd",
-    color: "#4caf50",
+    backgroundColor: "#80cbc4",
+    color: "black",
   },
   progress: {
     position: "absolute",

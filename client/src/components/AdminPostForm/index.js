@@ -55,7 +55,7 @@ const PostForm = (props) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" className={classes.heading}>
           Fill out a form to add item
         </Typography>
         <form className={classes.form} noValidate>

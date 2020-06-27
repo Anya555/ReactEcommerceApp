@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
   root: {
-    maxWidth: 300,
+    maxWidth: 150,
   },
   main: {
     marginTop: "50px",
@@ -12,6 +12,24 @@ export const useStyles = makeStyles({
     color: "black",
   },
   stock: {
-    color: "green",
+    color: "#009688",
+    textTransform: "uppercase",
+    fontSize: "small",
+  },
+  itemName: {
+    textAlign: "center",
+    textTransform: "uppercase",
+    fontSize: "small",
+    fontWeight: "bold",
+  },
+  image: {
+    paddingLeft: "20px",
+    paddingTop: "5px",
+  },
+  price: {
+    textTransform: "uppercase",
+    fontSize: "small",
+    color: "black",
+    fontWeight: "bold",
   },
 });

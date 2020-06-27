@@ -23,4 +23,8 @@ export const useStyles = makeStyles((theme) => ({
   delete: {
     cursor: "pointer",
   },
+  customBadge: {
+    backgroundColor: "#880e4f",
+    color: "white",
+  },
 }));

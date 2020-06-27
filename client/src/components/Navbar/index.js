@@ -89,8 +89,8 @@ const PrimarySearchAppBar = (props) => {
     >
       <MenuItem onClick={handleMenuClose}>
         <Link to="/" style={{ color: "black", textDecoration: "none" }}>
-          <IconButton color="inherit">
-            <Badge color="secondary">
+          <IconButton style={{ color: "black" }}>
+            <Badge>
               <Home />
             </Badge>
           </IconButton>
@@ -100,7 +100,7 @@ const PrimarySearchAppBar = (props) => {
       <MenuItem onClick={handleMenuClose}>
         <Link to="/contact" style={{ textDecoration: "none", color: "black" }}>
           <IconButton color="inherit">
-            <Badge color="secondary">
+            <Badge classes={{ badge: classes.customBadge }}>
               <MailIcon />
             </Badge>
           </IconButton>
@@ -133,7 +133,7 @@ const PrimarySearchAppBar = (props) => {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ margin: 0, backgroundColor: "#bdbdbd" }}>
+      <AppBar style={{ margin: 0, backgroundColor: "#263238" }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -144,7 +144,7 @@ const PrimarySearchAppBar = (props) => {
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon style={{ color: "#4caf50" }} />
+              <SearchIcon style={{ color: "#b2dfdb" }} />
             </div>
             <InputBase
               placeholder="Search…"
@@ -159,24 +159,27 @@ const PrimarySearchAppBar = (props) => {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton>
-              <Link to="/" style={{ color: "black" }}>
+              <Link to="/" style={{ color: "#e3f2fd" }}>
                 <Home />
               </Link>
             </IconButton>
             <IconButton color="inherit">
-              <Link to="/contact" style={{ color: "#4caf50" }}>
+              <Link to="/contact" style={{ color: "#80cbc4" }}>
                 <MailIcon />
               </Link>
             </IconButton>
             <IconButton aria-label="show 0 new notifications" color="inherit">
-              <Badge badgeContent={props.itemsCount} color="secondary">
-                <Link to="/cart" style={{ color: "black" }}>
+              <Badge
+                badgeContent={props.itemsCount}
+                classes={{ badge: classes.customBadge }}
+              >
+                <Link to="/cart" style={{ color: "#e3f2fd" }}>
                   <ShoppingCart />
                 </Link>
               </Badge>
             </IconButton>
             <IconButton
-              style={{ color: "#4caf50" }}
+              style={{ color: "#80cbc4" }}
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}

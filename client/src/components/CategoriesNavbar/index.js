@@ -37,7 +37,7 @@ export default function PrimarySearchAppBar(props) {
           handleMobileMenuClose();
         }}
       >
-        All
+        Shop All
       </MenuItem>
       <MenuItem
         id="blenders"
@@ -82,41 +82,46 @@ export default function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.app}>
         <Toolbar>
-          <img
+          {/* <img
             src="./images/markaronic.pl.png"
             height="100px"
             width="200px"
             alt="logo"
-          />
+          /> */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <MenuItem
+              className={classes.category}
               id="All"
               onClick={() => {
                 props.displayAll();
               }}
             >
-              All
+              Shop All
             </MenuItem>
             <MenuItem
+              className={classes.category}
               id="blenders"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >
               Blenders
             </MenuItem>
             <MenuItem
+              className={classes.category}
               id="juicers"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >
               Juicers
             </MenuItem>
             <MenuItem
+              className={classes.dehydrator}
               id="dehydrators"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >
               Dehydrators
             </MenuItem>
             <MenuItem
+              className={classes.category}
               id="oilPresses"
               onClick={(e) => props.displayItemCategory(e.currentTarget.id)}
             >

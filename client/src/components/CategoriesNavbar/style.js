@@ -26,4 +26,10 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     boxShadow: "none",
   },
+  category: {
+    backgroundColor: "#b2dfdb",
+  },
+  dehydrator: {
+    backgroundColor: "#eeeeee",
+  },
 }));

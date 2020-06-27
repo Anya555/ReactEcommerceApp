@@ -70,7 +70,7 @@ const ItemCard = (props) => {
       />
       <Grid container className={classes.main} spacing={4}>
         <Grid item xs={12}>
-          <Grid container justify="center" spacing={2}>
+          <Grid container justify="center" spacing={8}>
             {filteredProducts
               .filter(
                 (product) =>
@@ -83,19 +83,25 @@ const ItemCard = (props) => {
               )
               .map((product) => (
                 <Grid key={product._id} item>
-                  {" "}
                   <Card className={classes.root}>
                     <img
                       src={product.imgUrl}
                       alt="product"
                       height="100px"
                       width="100px"
+                      className={classes.image}
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.itemName}
+                      >
                         {product.name}
                       </Typography>
-                      <div>Price: $ {product.price}</div>
+                      <hr></hr>
+                      <div className={classes.price}>$ {product.price}</div>
                       {product.dbQuantity === 0 ? (
                         <div className={classes.stock}>Out of stock</div>
                       ) : (

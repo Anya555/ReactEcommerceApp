@@ -107,7 +107,6 @@ const Signup = (props) => {
               <Grid>
                 Already have an account?
                 <Link to="/login" style={{ textDecoration: "none" }}>
-                  {" "}
                   Log in
                 </Link>
               </Grid>

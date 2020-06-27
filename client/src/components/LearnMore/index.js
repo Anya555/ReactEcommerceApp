@@ -24,7 +24,7 @@ export default function LearnMore(props) {
               <ul className={classes.list}>
                 <li className={classes.name}>{props.product.name}</li>
                 <br></br>
-                <li>Price: ${props.product.price}</li>
+                <li className={classes.price}>Price: ${props.product.price}</li>
                 <br></br>
                 <li>{props.product.description}</li>
               </ul>

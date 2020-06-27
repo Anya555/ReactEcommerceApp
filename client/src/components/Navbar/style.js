@@ -58,4 +58,8 @@ export const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  customBadge: {
+    backgroundColor: "#880e4f",
+    color: "white",
+  },
 }));

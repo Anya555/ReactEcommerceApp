@@ -34,10 +34,15 @@ export default function Cart(props) {
   // update items quantity in cart based on user input
   const handleQuantity = (id) => (e) => {
     e.preventDefault();
-    const { name, value } = e.target;
-
+    let { name, value } = e.target;
     let item = props.cartItems.find((item) => item._id === id);
-    validateQtyInStock(item, value);
+    // user input can not exceed items in stock
+    if (value > item.dbQuantity) {
+      value = item.dbQuantity;
+      setIsHigher([...isHigher, item._id]);
+    } else {
+      setIsHigher(isHigher.filter((id) => item._id !== id));
+    }
 
     if (props.user.accessToken) {
       // if user logged in
@@ -52,17 +57,6 @@ export default function Cart(props) {
       item.cartQuantity = value;
       localStorage.setItem("items", JSON.stringify(props.cartItems));
       props.setCartItems(props.cartItems);
-    }
-  };
-
-  const validateQtyInStock = (item, value) => {
-    // user input can not exceed items in stock
-    if (value > item.dbQuantity) {
-      value = item.dbQuantity;
-
-      setIsHigher([...isHigher, item._id]);
-    } else {
-      setIsHigher(isHigher.filter((id) => item._id !== id));
     }
   };
 
@@ -144,7 +138,7 @@ export default function Cart(props) {
                     <ul className={classes.list}>
                       <li className={classes.name}>{item.name}</li>
                       <br></br>
-                      <li>Price: ${item.price}</li>
+                      <li className={classes.price}> ${item.price}</li>
                       {item.dbQuantity === 0 ? (
                         <li className={classes.stock}>Out of stock</li>
                       ) : (

@@ -100,7 +100,7 @@ const AddToCart = (props) => {
   return (
     <>
       <AddShoppingCartIcon
-        style={{ color: "red", cursor: "pointer" }}
+        style={{ color: "#880e4f", cursor: "pointer" }}
         onClick={() => addItemToCart(props.product._id)}
       />
     </>

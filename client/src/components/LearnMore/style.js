@@ -5,16 +5,21 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     backgroundColor: "white",
     flexWrap: "wrap",
-    marginTop: 50,
-    padding: 50,
+    marginTop: 150,
+    width: 1000,
+    marginLeft: 150,
   },
   list: {
     listStyleType: "none",
   },
   name: {
     textTransform: "uppercase",
+    fontWeight: "bold",
   },
   close: {
-    marginTop: 40,
+    backgroundColor: "#eeeeee",
+  },
+  price: {
+    color: "#880e4f",
   },
 }));

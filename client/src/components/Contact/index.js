@@ -45,7 +45,7 @@ const Contact = () => {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" className={classes.heading}>
             Contact Us
           </Typography>
           <form className={classes.form} noValidate>

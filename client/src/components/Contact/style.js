@@ -13,7 +13,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(2, 0, 2),
-    backgroundColor: "#bdbdbd",
-    color: "#4caf50",
+    backgroundColor: "#80cbc4",
+    color: "black",
+  },
+  heading: {
+    textTransform: "uppercase",
+    fontSize: "large",
   },
 }));
