@@ -12,10 +12,6 @@ app.use(express.json());
 
 require("dotenv").config();
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "./client/build")));
-}
-
 mongoose
   .connect("mongodb://localhost:27017/products", {
     useNewUrlParser: true,
