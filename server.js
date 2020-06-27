@@ -32,7 +32,7 @@ app.use(async (req, res, next) => {
       accessToken,
       process.env.JWT_SECRET
     );
-    // Check if token has expired
+    /// Check if token has expired
     if (exp < Date.now().valueOf() / 1000) {
       return res.status(401).json({
         error: "JWT token has expired, please login to obtain a new one",
