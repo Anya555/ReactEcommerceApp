@@ -11,13 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 require("dotenv").config();
-app.use(routes);
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "./client/build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
-  });
-}
 
 mongoose
   .connect(process.env.MLAB_URL || "mongodb://localhost:27017/products", {
@@ -47,6 +40,14 @@ app.use(async (req, res, next) => {
     next();
   }
 });
+
+app.use(routes);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "./client/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  });
+}
 
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
