@@ -23,7 +23,7 @@ module.exports = {
       const { firstName, lastName, email, password, role } = req.body;
       // ===========================================================//
       const user = await User.findOne({ email });
-      if (user) return next(new Error("Email already exists"));
+      if (user) return res.status(400).json({ status: "Email already exists" });
 
       // =============================================================//
       const hashedpassword = await hashPassword(password);
@@ -58,29 +58,6 @@ module.exports = {
   //the validatePassword function is used to verify that the password is correct. When that’s done,
   // we can then create a new token for that user which will replace any previously issued token.
   // That token will ideally be sent by the user along in the header when trying to access any restricted route.
-  // login: async (req, res, next) => {
-  //   try {
-  //     const { email, password } = req.body;
-  //     const user = await User.findOne({ email });
-  //     if (!user) return next(new Error("Email does not exist"));
-  //     const validPassword = await validatePassword(password, user.password);
-  //     if (!validPassword) return next(new Error("Password is not correct"));
-  //     const accessToken = jwt.sign(
-  //       { userId: user._id },
-  //       process.env.JWT_SECRET,
-  //       {
-  //         expiresIn: "1d",
-  //       }
-  //     );
-  //     await User.findByIdAndUpdate(user._id, { accessToken });
-  //     res.status(200).json({
-  //       data: { email: user.email, role: user.role, userId: user._id },
-  //       accessToken,
-  //     });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // },
 
   login: async (req, res, next) => {
     try {
@@ -106,7 +83,9 @@ module.exports = {
         accessToken,
       });
     } catch (error) {
-      next(error);
+      return res
+        .status(400)
+        .json({ status: "Data you entered doesn't match our records" });
     }
   },
 
@@ -116,7 +95,7 @@ module.exports = {
         const permission = roles.can(req.user.role)[action](resource);
         if (!permission.granted) {
           return res.status(401).json({
-            error: "You don't have enough permission to perform this action",
+            status: "You don't have enough permission to perform this action",
           });
         }
         next();
@@ -131,7 +110,7 @@ module.exports = {
       const user = res.locals.loggedInUser; // res.locals.loggedInUser variable holds the details of the logged-in user
       if (!user)
         return res.status(401).json({
-          error: "You need to be logged in to access this route",
+          status: "You need to be logged in to access this route",
         });
       req.user = user;
       next();

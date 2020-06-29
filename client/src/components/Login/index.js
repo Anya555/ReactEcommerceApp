@@ -16,6 +16,7 @@ const Signup = (props) => {
   const classes = useStyles({});
 
   const [formObject, setFormObject] = useState([]);
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +35,7 @@ const Signup = (props) => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        setError(error.response.data.status);
       });
   };
 
@@ -75,7 +76,9 @@ const Signup = (props) => {
                   type="password"
                   onChange={handleInputChange}
                 />
+                {error ? <div style={{ color: "red" }}>{error}!</div> : null}
               </Grid>
+
               <Grid item xs={12}>
                 <Button
                   type="submit"
