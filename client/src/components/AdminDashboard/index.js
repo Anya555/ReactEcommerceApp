@@ -44,7 +44,9 @@ export default function Dashboard(props) {
           }
         );
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
 
   const deleteFromDb = (id) => {

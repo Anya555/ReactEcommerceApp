@@ -53,7 +53,7 @@ const AddToCart = (props) => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
       });
   };
 
@@ -65,7 +65,6 @@ const AddToCart = (props) => {
     })
       .then(() => {
         props.setItemsCount(props.itemsCount + 1);
-        // props.setShouldGetCartContent(true);
       })
       .catch((error) => {
         console.log(error.response);
