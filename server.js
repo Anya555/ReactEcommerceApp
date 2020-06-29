@@ -41,6 +41,11 @@ app.use(async (req, res, next) => {
   }
 });
 
+function handleError(res, reason, message, code) {
+  console.log("ERROR: " + reason);
+  res.status(code || 500).json({ error: message });
+}
+
 app.use(routes);
 if (process.env.NODE_ENV == "production") {
   app.use(express.static(path.join(__dirname, "build")));
