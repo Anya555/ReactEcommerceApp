@@ -46,6 +46,7 @@ function App() {
       const items = res.data;
       let userItems = [];
       // accessToken identifies if user is logged in
+
       if (user.accessToken) {
         items.forEach((item) => {
           if (item.userId === user.data.userId) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -11,6 +11,11 @@ import API from "../../utils/API";
 export default function Cart(props) {
   const classes = useStyles();
   const [isHigher, setIsHigher] = useState([]);
+  const [firstName, setFirstName] = useState("");
+
+  useEffect(() => {
+    getUserName();
+  }, []);
 
   // delete item from cart
   const remove = (id) => {
@@ -104,19 +109,25 @@ export default function Cart(props) {
       });
   };
 
+  const getUserName = () => {
+    if (props.user.accessToken) {
+      setFirstName(props.user.data.firstName);
+    }
+  };
+
   return (
     <>
       {props.itemsCount > 1 ? (
         <Typography className={classes.heading}>
-          Your Shopping Cart Has {props.itemsCount} Items
+          {firstName} Your Shopping Cart Has {props.itemsCount} Items
         </Typography>
       ) : props.itemsCount === 1 ? (
         <Typography className={classes.heading}>
-          Your Shopping Cart Has 1 Item
+          {firstName} Your Shopping Cart Has 1 Item
         </Typography>
       ) : (
         <Typography className={classes.heading}>
-          Your shopping cart is empty
+          {firstName} Your shopping cart is empty
         </Typography>
       )}
 
