@@ -40,7 +40,9 @@
     "mongoose": "^5.9.15",
     "nodemailer": "^6.4.8",
     "path": "^0.12.7",
-    "concurrently": "^5.2.0",
+    "concurrently": "^5.2.0"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.4"
   }
 }
