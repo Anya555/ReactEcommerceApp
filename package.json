@@ -2,6 +2,9 @@
   "name": "ReactEcommerceApp",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "14.3.0"
+  },
   "main": "server.js",
   "scripts": {
     "server": "nodemon index.js --ignore client",
