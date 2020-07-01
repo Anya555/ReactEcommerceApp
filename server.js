@@ -42,11 +42,11 @@ app.use(async (req, res, next) => {
 });
 
 app.use(routes);
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.join(__dirname, "build")));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+    res.sendFile(path.join(__dirname, "client", "build", "index.html")); // relative path
   });
 }
 
