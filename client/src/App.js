@@ -26,6 +26,13 @@ function App() {
 
   useEffect(() => {
     if (shouldGetCartContent === true) {
+      API.test()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
       getCartContent();
     }
   }, [user, cartItems, shouldGetCartContent]);

@@ -66,4 +66,8 @@ export default {
   sendEmail: (message) => {
     return axios.post("/api/email", message);
   },
+
+  test: () => {
+    return axios.get("/api/test");
+  },
 };
