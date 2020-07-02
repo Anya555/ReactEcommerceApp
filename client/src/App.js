@@ -24,18 +24,18 @@ function App() {
   const [itemsCount, setItemsCount] = useState(0);
   const [shouldGetCartContent, setShouldGetCartContent] = useState(true);
 
-  useEffect(() => {
-    if (shouldGetCartContent === true) {
-      API.test()
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-      getCartContent();
-    }
-  }, [user, cartItems, shouldGetCartContent]);
+  // useEffect(() => {
+  //   if (shouldGetCartContent === true) {
+  //     API.test()
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err.response);
+  //       });
+  //     getCartContent();
+  //   }
+  // }, [user, cartItems, shouldGetCartContent]);
 
   //  if user is logged in and user's role is admin,
   // admin-access restricted components will be rendered
@@ -84,98 +84,101 @@ function App() {
   };
 
   return (
-    <Router>
-      <Navbar
-        setSearch={setSearch}
-        itemsCount={itemsCount}
-        cartItems={cartItems}
-      />
-      <Switch>
-        <Route exact path="/">
-          <HomePage
-            search={search}
-            image={image}
-            user={user}
-            cartItems={cartItems}
-            setCartItems={setCartItems}
-            itemsCount={itemsCount}
-            setItemsCount={setItemsCount}
-            setShouldGetCartContent={setShouldGetCartContent}
-          />
-        </Route>
-        <Route exact path="/login">
-          <Login userLogin={userLogin} />
-        </Route>
-        <Route exact path="/signup">
-          <Signup />
-        </Route>
-        <Route exact path="/admin-dashboard">
-          {isAdmin === true ? (
-            <AdminDashboard search={search} image={image} />
-          ) : (
-            <>
-              <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-              >
-                {" "}
-                <img
-                  src="./images/401.gif"
-                  className="unauthorized"
-                  alt="unauthorized"
-                />
-              </Grid>
-              <div className="no-access">
-                You're not authorized to access this page
-              </div>
-            </>
-          )}
-        </Route>
-        <Route exact path="/admin-post-form">
-          {isAdmin === true ? (
-            <AdminPostForm setImage={setImage} image={image} />
-          ) : (
-            <>
-              <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-              >
-                {" "}
-                <img
-                  src="./images/401.gif"
-                  className="unauthorized"
-                  alt="unauthorized"
-                />
-              </Grid>
-              <div className="no-access">
-                You're not authorized to access this page
-              </div>
-            </>
-          )}
-        </Route>
-        <Route exact path="/cart">
-          <Cart
-            user={user}
-            cartItems={cartItems}
-            setCartItems={setCartItems}
-            itemsCount={itemsCount}
-            setItemsCount={setItemsCount}
-            setShouldGetCartContent={setShouldGetCartContent}
-          />
-        </Route>
-        <Route exact path="/learn-more">
-          <LearnMore />
-        </Route>
-        <Route exact path="/contact">
-          <Contact />
-        </Route>
-      </Switch>
-      {/* <Footer /> */}
-    </Router>
+    <>
+      <p>hello</p>
+    </>
+    // <Router>
+    //   <Navbar
+    //     setSearch={setSearch}
+    //     itemsCount={itemsCount}
+    //     cartItems={cartItems}
+    //   />
+    //   <Switch>
+    //     <Route exact path="/">
+    //       <HomePage
+    //         search={search}
+    //         image={image}
+    //         user={user}
+    //         cartItems={cartItems}
+    //         setCartItems={setCartItems}
+    //         itemsCount={itemsCount}
+    //         setItemsCount={setItemsCount}
+    //         setShouldGetCartContent={setShouldGetCartContent}
+    //       />
+    //     </Route>
+    //     <Route exact path="/login">
+    //       <Login userLogin={userLogin} />
+    //     </Route>
+    //     <Route exact path="/signup">
+    //       <Signup />
+    //     </Route>
+    //     <Route exact path="/admin-dashboard">
+    //       {isAdmin === true ? (
+    //         <AdminDashboard search={search} image={image} />
+    //       ) : (
+    //         <>
+    //           <Grid
+    //             container
+    //             direction="row"
+    //             justify="center"
+    //             alignItems="center"
+    //           >
+    //             {" "}
+    //             <img
+    //               src="./images/401.gif"
+    //               className="unauthorized"
+    //               alt="unauthorized"
+    //             />
+    //           </Grid>
+    //           <div className="no-access">
+    //             You're not authorized to access this page
+    //           </div>
+    //         </>
+    //       )}
+    //     </Route>
+    //     <Route exact path="/admin-post-form">
+    //       {isAdmin === true ? (
+    //         <AdminPostForm setImage={setImage} image={image} />
+    //       ) : (
+    //         <>
+    //           <Grid
+    //             container
+    //             direction="row"
+    //             justify="center"
+    //             alignItems="center"
+    //           >
+    //             {" "}
+    //             <img
+    //               src="./images/401.gif"
+    //               className="unauthorized"
+    //               alt="unauthorized"
+    //             />
+    //           </Grid>
+    //           <div className="no-access">
+    //             You're not authorized to access this page
+    //           </div>
+    //         </>
+    //       )}
+    //     </Route>
+    //     <Route exact path="/cart">
+    //       <Cart
+    //         user={user}
+    //         cartItems={cartItems}
+    //         setCartItems={setCartItems}
+    //         itemsCount={itemsCount}
+    //         setItemsCount={setItemsCount}
+    //         setShouldGetCartContent={setShouldGetCartContent}
+    //       />
+    //     </Route>
+    //     <Route exact path="/learn-more">
+    //       <LearnMore />
+    //     </Route>
+    //     <Route exact path="/contact">
+    //       <Contact />
+    //     </Route>
+    //   </Switch>
+    //   {/* <Footer /> */}
+    // </Router>
   );
 }
 
