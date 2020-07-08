@@ -79,7 +79,12 @@ module.exports = {
       );
       await User.findByIdAndUpdate(user._id, { accessToken });
       res.status(200).json({
-        data: { email: user.email, role: user.role, firstName: user.firstName },
+        data: {
+          email: user.email,
+          role: user.role,
+          firstName: user.firstName,
+          userId: user._id,
+        },
         accessToken,
       });
     } catch (error) {

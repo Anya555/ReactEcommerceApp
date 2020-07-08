@@ -18,7 +18,6 @@ const AddToCart = (props) => {
       .then((res) => {
         props.setItemsCount(props.itemsCount + 1);
         props.setCartItems([...props.cartItems, res.data]);
-        console.log(res.data);
         props.setShouldGetCartContent(true);
       })
       .catch((error) => {

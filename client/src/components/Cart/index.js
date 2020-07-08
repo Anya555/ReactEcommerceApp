@@ -62,6 +62,7 @@ export default function Cart(props) {
       item.cartQuantity = value;
       localStorage.setItem("items", JSON.stringify(props.cartItems));
       props.setCartItems(props.cartItems);
+      props.setShouldGetCartContent(true);
     }
   };
 
