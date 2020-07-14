@@ -7,18 +7,6 @@ const PORT = process.env.PORT || 3001;
 const jwt = require("jsonwebtoken");
 const User = require("./models/UserModel");
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-require("dotenv").config();
-
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.join(__dirname, "build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
-}
-
 mongoose
   .connect(process.env.MLAB_URL || "mongodb://localhost:27017/products", {
     useNewUrlParser: true,
@@ -27,6 +15,10 @@ mongoose
   .then(() => {
     console.log("Connected to the Database successfully");
   });
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+require("dotenv").config();
+app.use(routes);
 
 app.use(async (req, res, next) => {
   if (req.headers["x-access-token"]) {
@@ -47,7 +39,15 @@ app.use(async (req, res, next) => {
     next();
   }
 });
-app.use(routes);
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
