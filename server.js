@@ -19,8 +19,6 @@ if (process.env.NODE_ENV == "production") {
   });
 }
 
-app.use(routes);
-
 mongoose
   .connect(process.env.MLAB_URL || "mongodb://localhost:27017/products", {
     useNewUrlParser: true,
@@ -49,7 +47,7 @@ app.use(async (req, res, next) => {
     next();
   }
 });
-
+app.use(routes);
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
