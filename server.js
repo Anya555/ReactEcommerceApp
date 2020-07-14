@@ -20,7 +20,7 @@ mongoose
   .then(() => {
     console.log("Connected to the Database successfully");
   });
-app.use(routes);
+
 app.use(async (req, res, next) => {
   if (req.headers["x-access-token"]) {
     const accessToken = req.headers["x-access-token"];
@@ -40,7 +40,7 @@ app.use(async (req, res, next) => {
     next();
   }
 });
-
+app.use(routes);
 if (process.env.NODE_ENV == "production") {
   app.use(express.static(path.join(__dirname, "build")));
 
