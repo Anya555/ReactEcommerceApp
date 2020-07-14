@@ -9,8 +9,17 @@ const User = require("./models/UserModel");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 require("dotenv").config();
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static(path.join(__dirname, "build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+}
+
+app.use(routes);
 
 mongoose
   .connect(process.env.MLAB_URL || "mongodb://localhost:27017/products", {
@@ -20,7 +29,7 @@ mongoose
   .then(() => {
     console.log("Connected to the Database successfully");
   });
-app.use(routes);
+
 app.use(async (req, res, next) => {
   if (req.headers["x-access-token"]) {
     const accessToken = req.headers["x-access-token"];
@@ -40,14 +49,6 @@ app.use(async (req, res, next) => {
     next();
   }
 });
-
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.join(__dirname, "build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
-}
 
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
