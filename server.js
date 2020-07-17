@@ -18,11 +18,11 @@ mongoose
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 require("dotenv").config();
-app.use(routes);
 
 app.use(async (req, res, next) => {
   if (req.headers["x-access-token"]) {
     const accessToken = req.headers["x-access-token"];
+    console.log("accesstoken", accessToken);
     const { userId, exp } = await jwt.verify(
       accessToken,
       process.env.JWT_SECRET
@@ -39,7 +39,7 @@ app.use(async (req, res, next) => {
     next();
   }
 });
-
+app.use(routes);
 if (process.env.NODE_ENV == "production") {
   app.use(express.static("client/build"));
 
