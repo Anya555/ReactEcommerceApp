@@ -114,7 +114,6 @@ function App() {
                 justify="center"
                 alignItems="center"
               >
-                {" "}
                 <img
                   src="./images/401.gif"
                   className="unauthorized"
@@ -138,7 +137,6 @@ function App() {
                 justify="center"
                 alignItems="center"
               >
-                {" "}
                 <img
                   src="./images/401.gif"
                   className="unauthorized"
@@ -168,7 +166,6 @@ function App() {
           <Contact />
         </Route>
       </Switch>
-      {/* <Footer /> */}
     </Router>
   );
 }
