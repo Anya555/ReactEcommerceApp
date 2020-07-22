@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const User = require("./models/UserModel");
 
 mongoose
-  .connect(process.env.MLAB_URL || "mongodb://localhost:27017/products", {
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/products", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
