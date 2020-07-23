@@ -41,7 +41,7 @@ const Contact = () => {
   };
 
   return (
-    <>
+    <div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -99,7 +99,7 @@ const Contact = () => {
           </form>
         </div>
       </Container>
-    </>
+    </div>
   );
 };
 export default Contact;

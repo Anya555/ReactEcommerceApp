@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Navbar from "./components/Navbar";
-// import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -108,7 +107,7 @@ function App() {
           {isAdmin === true ? (
             <AdminDashboard search={search} image={image} />
           ) : (
-            <>
+            <div>
               <Grid
                 container
                 direction="row"
@@ -124,14 +123,14 @@ function App() {
               <div className="no-access">
                 You're not authorized to access this page
               </div>
-            </>
+            </div>
           )}
         </Route>
         <Route exact path="/admin-post-form">
           {isAdmin === true ? (
             <AdminPostForm setImage={setImage} image={image} />
           ) : (
-            <>
+            <div>
               <Grid
                 container
                 direction="row"
@@ -147,7 +146,7 @@ function App() {
               <div className="no-access">
                 You're not authorized to access this page
               </div>
-            </>
+            </div>
           )}
         </Route>
         <Route exact path="/cart">

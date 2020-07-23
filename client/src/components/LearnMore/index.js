@@ -8,7 +8,7 @@ export default function LearnMore(props) {
   const classes = useStyles();
 
   return (
-    <>
+    <div>
       <div xs={12} key={props.product._id}>
         <Modal className={classes.paper} open={props.product.open}>
           <Grid container spacing={3} className={classes.root}>
@@ -40,6 +40,6 @@ export default function LearnMore(props) {
           </Grid>
         </Modal>
       </div>
-    </>
+    </div>
   );
 }

@@ -97,12 +97,12 @@ const AddToCart = (props) => {
   };
 
   return (
-    <>
+    <div>
       <AddShoppingCartIcon
         style={{ color: "#880e4f", cursor: "pointer" }}
         onClick={() => addItemToCart(props.product._id)}
       />
-    </>
+    </div>
   );
 };
 export default withRouter(AddToCart);

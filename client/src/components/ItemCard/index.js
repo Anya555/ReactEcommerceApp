@@ -63,7 +63,7 @@ const ItemCard = (props) => {
   };
 
   return (
-    <>
+    <div>
       <CategoriesNavbar
         displayItemCategory={displayItemCategory}
         displayAll={displayAll}
@@ -137,7 +137,7 @@ const ItemCard = (props) => {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 export default ItemCard;

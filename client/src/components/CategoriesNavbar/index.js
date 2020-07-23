@@ -82,12 +82,6 @@ export default function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.app}>
         <Toolbar>
-          {/* <img
-            src="./images/markaronic.pl.png"
-            height="100px"
-            width="200px"
-            alt="logo"
-          /> */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <MenuItem

@@ -41,7 +41,7 @@ const Signup = (props) => {
   };
 
   return (
-    <>
+    <div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -101,7 +101,7 @@ const Signup = (props) => {
           </form>
         </div>
       </Container>
-    </>
+    </div>
   );
 };
 export default withRouter(Signup);

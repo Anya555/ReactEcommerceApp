@@ -119,7 +119,7 @@ export default function Cart(props) {
   };
 
   return (
-    <>
+    <div>
       {props.itemsCount > 1 ? (
         <Typography className={classes.heading}>
           {firstName} Your Shopping Cart Has {props.itemsCount} Items
@@ -215,6 +215,6 @@ export default function Cart(props) {
           </Paper>
         </Grid>
       </div>
-    </>
+    </div>
   );
 }
