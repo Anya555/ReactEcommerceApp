@@ -94,7 +94,6 @@ const Signup = (props) => {
               <Grid>
                 Don't have an account?
                 <Link to="/signup" style={{ textDecoration: "none" }}>
-                  {" "}
                   Sign up
                 </Link>
               </Grid>

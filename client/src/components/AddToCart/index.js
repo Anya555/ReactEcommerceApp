@@ -11,6 +11,7 @@ const AddToCart = (props) => {
     if (shouldSave === true) {
       addItemToDB();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldSave]);
 
   const addItemToDB = () => {

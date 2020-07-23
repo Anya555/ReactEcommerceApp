@@ -51,12 +51,13 @@ export default function Dashboard(props) {
 
   const deleteFromDb = (id) => {
     API.deleteItem(id)
-      .then(() => {
+      .then((res) => {
         products.map((product) => {
           // delete image from firebase storage when deleting item from mongoDB
           if (product._id === id) {
             firebase.storage.ref("images/").child(product.image).delete();
           }
+          return product;
         });
       })
       .then(() => {

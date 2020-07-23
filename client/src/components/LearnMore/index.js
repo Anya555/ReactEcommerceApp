@@ -34,7 +34,7 @@ export default function LearnMore(props) {
                 className={classes.close}
                 onClick={() => props.handleShow(props.product)}
               >
-                X
+                x
               </Button>
             </Grid>
           </Grid>

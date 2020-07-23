@@ -21,6 +21,7 @@ const PostForm = (props) => {
     if (shouldSave === true) {
       addItemToDb();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldSave]);
 
   const handleInputChange = (e) => {

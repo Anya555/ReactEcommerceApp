@@ -28,6 +28,7 @@ function App() {
     if (shouldGetCartContent === true) {
       getCartContent();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, cartItems, shouldGetCartContent]);
 
   //  if user is logged in and user's role is admin,
