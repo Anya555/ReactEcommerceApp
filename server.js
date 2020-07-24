@@ -40,11 +40,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use(routes);
-const root = require("path").join(__dirname, "client", "build");
-app.use(express.static(root));
-app.get("*", (req, res) => {
-  res.sendFile("index.html", { root });
-});
+app.use(express.static(path.join(__dirname, "build")));
 
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
