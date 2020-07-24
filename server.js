@@ -40,7 +40,10 @@ app.use(async (req, res, next) => {
 });
 
 app.use(routes);
-app.use(express.static(path.join(__dirname, "build")));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "./client/build")));
+}
 
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
