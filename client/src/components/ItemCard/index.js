@@ -38,6 +38,7 @@ const ItemCard = (props) => {
       .then((res) => {
         // when 'Learn More' button is clicked, open property will change to 'true' and item modal will open up
         let items = res.data;
+        console.log(res);
         items.forEach((item) => {
           item.open = false;
         });

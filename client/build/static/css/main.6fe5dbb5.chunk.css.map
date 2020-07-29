@@ -1,0 +1,1 @@
+{"version":3,"sources":["App.css"],"names":[],"mappings":"AAAA,cACE,eACF,CAEA,WACE,wBAAyB,CACzB,iBAAkB,CAClB,SACF","file":"main.6fe5dbb5.chunk.css","sourcesContent":[".unauthorized {\r\n  margin-top: 40px;\r\n}\r\n\r\n.no-access {\r\n  text-transform: uppercase;\r\n  text-align: center;\r\n  color: red;\r\n}\r\n"]}
