@@ -7,8 +7,10 @@ const PORT = process.env.PORT || 3001;
 const jwt = require("jsonwebtoken");
 const User = require("./models/UserModel");
 
+const MONGO_CONNECT = (process.env.NODE_ENV === "production") ? "mongodb://webuser:43dN1x3hhDLMmiHhXQOcNd@ds029811.mlab.com:29811/heroku_dqpr36g1" : "mongodb://localhost:27017/products"
+
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/products")
+  .connect(MONGO_CONNECT)
   .then(() => {
     console.log("Connected to the Database successfully");
   });
