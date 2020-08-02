@@ -39,7 +39,6 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.use(routes);
 if (process.env.NODE_ENV == "production") {
   app.use(express.static(path.join(__dirname, "./client/build")));
 
@@ -47,7 +46,7 @@ if (process.env.NODE_ENV == "production") {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
 }
-
+app.use(routes);
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
