@@ -113,7 +113,6 @@ module.exports = {
   allowIfLoggedin: async (req, res, next) => {
     try {
       const user = res.locals.loggedInUser; // res.locals.loggedInUser variable holds the details of the logged-in user
-      console.log("user", user);
       if (!user)
         return res.status(401).json({
           status: "You need to be logged in to access this route",

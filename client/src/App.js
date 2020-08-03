@@ -36,7 +36,6 @@ function App() {
     setUser(userData);
     setShouldGetCartContent(true);
     if (userData.accessToken && userData.data.role === "admin") {
-      console.log(true);
       setIsAdmin(true);
     }
   };
