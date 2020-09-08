@@ -7,14 +7,17 @@ const PORT = process.env.PORT || 3001;
 const jwt = require("jsonwebtoken");
 const User = require("./models/UserModel");
 
-const MONGO_CONNECT =
-  process.env.NODE_ENV === "production"
-    ? "mongodb://webuser:43dN1x3hhDLMmiHhXQOcNd@ds029811.mlab.com:29811/heroku_dqpr36g1"
-    : "mongodb://localhost:27017/products";
-
-mongoose.connect(MONGO_CONNECT).then(() => {
-  console.log("Connected to the Database successfully");
-});
+mongoose
+  .connect(
+    process.env.MONGO_ATLAS || "mongodb://localhost:27017/appointments",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("Connected to the Database successfully");
+  });
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 require("dotenv").config();
