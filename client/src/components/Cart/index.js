@@ -41,7 +41,7 @@ export default function Cart(props) {
   const handleQuantity = (id) => (e) => {
     e.preventDefault();
     let { name, value } = e.target;
-    console.log(name);
+
     let item = props.cartItems.find((item) => item._id === id);
     // user input can not exceed items in stock
     if (value > item.dbQuantity) {

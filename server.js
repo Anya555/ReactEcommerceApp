@@ -8,13 +8,10 @@ const jwt = require("jsonwebtoken");
 const User = require("./models/UserModel");
 
 mongoose
-  .connect(
-    process.env.MONGO_ATLAS || "mongodb://localhost:27017/appointments",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGO_ATLAS || "mongodb://localhost:27017/products", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to the Database successfully");
   });

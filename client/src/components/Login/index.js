@@ -100,6 +100,11 @@ const Signup = (props) => {
           </form>
         </div>
       </Container>
+      <br></br>
+      <p style={{ textAlign: "center", fontWeight: "bold" }}>
+        For testing admin functionality: Email: annapanas0906@gmail.com,
+        Password: test
+      </p>
     </div>
   );
 };

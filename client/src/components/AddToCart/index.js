@@ -11,7 +11,6 @@ const AddToCart = (props) => {
     if (shouldSave === true) {
       addItemToDB();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldSave]);
 
   const addItemToDB = () => {
@@ -59,7 +58,7 @@ const AddToCart = (props) => {
 
   const updateItemQuantityInDB = (id) => {
     let item = props.cartItems.find((item) => item.itemId === id);
-    console.log(item);
+
     API.updateCartQuantity(item.itemId, {
       cartQuantity: (item.cartQuantity += 1),
     })
